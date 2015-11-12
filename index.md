@@ -3,7 +3,7 @@ layout: page
 title: 통계적 사고 워크샵 
 ---
 
-사이그래머에서 자리를 마련해 주셔서 [xwMOOC](http://www.xwmooc.net)에서 함께 합니다.
+사이그래머와 [xwMOOC](http://www.xwmooc.net)가 함께 합니다.
 
 > ### 기계와의 경쟁을 준비하며... {.getready}
 >
@@ -20,8 +20,8 @@ title: 통계적 사고 워크샵
 
 > ### 교재 {.callout}
 > 통계적 사고 (ThinkStats2) : 프로그래머를 위한 확률과 통계  
-> - (번역): https://github.com/statkclee/ThinkStats2
-> - (원서): http://greenteapress.com/thinkstats2/
+>     - (번역): [https://github.com/statkclee/ThinkStats2](https://github.com/statkclee/ThinkStats2)  
+>     - (원서): [http://greenteapress.com/thinkstats2/](http://greenteapress.com/thinkstats2/)
 
 ### 학습 목차
 
@@ -50,8 +50,7 @@ title: 통계적 사고 워크샵
 
 ### 참고자료
 
-*   [$100 달러 오픈 컴퓨터](http://computer.xwmooc.org)
-*   [$100 달러 오픈 컴퓨터 워크샵](https://public.etherpad-mozilla.org/p/open-computer)
+*   [$100 달러 오픈 컴퓨터](http://computer.xwmooc.org) : [$100 달러 오픈 컴퓨터 워크샵](https://public.etherpad-mozilla.org/p/open-computer)
 *   [컴퓨터과학 언플러그드](http://unplugged.xwmooc.org)
 *   [러플(Rur-ple)](http://rur-ple.xwmooc.org/)
 *   [정보교육을 위한 파이썬](http://python.xwmooc.org/)
