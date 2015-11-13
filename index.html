@@ -39,7 +39,7 @@
         <div class="col-md-10 col-md-offset-1">
           <h1 class="title">통계적 사고 워크샵</h1>
           
-<p>사이그래머와 <a href="http://www.xwmooc.net">xwMOOC</a>가 함께 합니다.</p>
+<p><a href="http://psygrammer.github.io/">싸이그래머</a>와 <a href="http://www.xwmooc.net">xwMOOC</a>가 함께 합니다.</p>
 <blockquote>
 <h3>기계와의 경쟁을 준비하며…</h3>
 <p>“The future is here, it’s just not evenly distributed yet.”<br /> - William Gibson</p>
@@ -53,7 +53,7 @@
 </ul></li>
 <li>장소
 <ul>
-<li>서울 강남 : <a href="http://maps.google.com/maps?q=37.2952648,127.114825">구글지도</a>.</li>
+<li>서울 강남역 근처 토즈 타워점 : <a href="http://www.toz.co.kr/branch/main/index.htm?id=24">위치확인</a></li>
 </ul></li>
 </ul>
 <div id="교재" class="callout panel panel-info">
@@ -64,6 +64,46 @@
 <p>통계적 사고 (ThinkStats2) : 프로그래머를 위한 확률과 통계<br /> - (번역): <a href="https://github.com/statkclee/ThinkStats2">https://github.com/statkclee/ThinkStats2</a><br /> - (원서): <a href="http://greenteapress.com/thinkstats2/">http://greenteapress.com/thinkstats2/</a></p>
 </div>
 </div>
+<h3 id="latex-사전-공부">LaTeX 사전 공부</h3>
+<ul>
+<li>LaTeX 기초
+<ul>
+<li><a href="https://github.com/statkclee/mini-course-materials/blob/kr/LaTeX_Basics/basicsOfLatex-kr.pdf">LaTeX 소개 슬라이드</a></li>
+<li><a href="https://github.com/statkclee/mini-course-materials/blob/kr/LaTeX_Basics/basicsOfLatex/latexTemp/latex-intro-kr.pdf">LaTeX 소개 문서형식</a></li>
+</ul></li>
+<li>LaTeX 석박사 논문 저작
+<ul>
+<li><a href="https://github.com/statkclee/mini-course-materials/blob/kr/LaTeX_Math_and_BibTeX/bibtexMathInLatex-kr.pdf">LaTeX : 수학, BibTeX, 사용자 정의</a></li>
+</ul></li>
+</ul>
+<p><a href="https://github.com/OpenIntroOrg/mini-course-materials">출처: OpenIntro.org LaTeX 저작 교육과정</a></p>
+<h3 id="사전-준비">사전 준비</h3>
+<ol style="list-style-type: decimal">
+<li>Git과 GitHub
+<ul>
+<li><a href="http://swcarpentry.xwmooc.org/lessons-5-2/novice/git/index.html">소프트웨어 카펜트리 Git을 이용한 버젼관리</a></li>
+<li>리눅스와 맥 사용자: <code>sudo apt-get install git</code></li>
+<li>윈도우 사용자: <a href="https://git-scm.com/downloads">Git Bash 설치</a></li>
+</ul></li>
+<li>파이썬 설치: <strong>아나콘다 기반 과학컴퓨팅 개발환경을 적극추천</strong>
+<ul>
+<li><a href="http://docs.continuum.io/anaconda/install">아나콘다 기반</a> 설치</li>
+<li><a href="https://www.python.org/downloads/">파이썬 기반</a> 설치</li>
+<li><a href="http://raspberry-pi.xwmooc.org/raspberry-pi-programming-science.html">아나콘다를 적극 추천하는 사유</a></li>
+</ul></li>
+</ol>
+<pre class="shell"><code># 파이썬 2 기준 우분투 14.04 64비트 버젼 설치 사례
+$ wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda2-2.4.0-Linux-x86_64.sh
+$ bash ~/Downloads/Anaconda2-2.4.0-Linux-x86_64.sh </code></pre>
+<h4 id="사전준비-검증">사전준비 검증</h4>
+<pre class="shell"><code>[xwmooc:~/ThinkStats2/code ] $ python nsfg.py</code></pre>
+<pre class="output"><code>nsfg.py:42: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  df.birthwgt_lb[df.birthwgt_lb &gt; 20] = np.nan
+(13593, 244)
+nsfg.py: All tests passed.</code></pre>
 <h3 id="학습-목차">학습 목차</h3>
 <table>
 <thead>
@@ -107,6 +147,10 @@
 </tr>
 </tbody>
 </table>
+<h3 id="열린-통계학-개론">열린 통계학 개론</h3>
+<ul>
+<li>현재 작업 중 :<a href="https://github.com/statkclee/openintro-statistics/tree/kr">열린 통계학 개론</a></li>
+</ul>
 <h3 id="언론-기사">언론 기사</h3>
 <ul>
 <li>한국통계진흥원에서 발간 <a href="http://sti.kostat.go.kr/">통계의 창 (2015년 여름호)</a>
