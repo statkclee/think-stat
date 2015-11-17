@@ -18,10 +18,15 @@ title: 통계적 사고 워크샵
 - 장소
     - 서울 강남역 근처 토즈 타워점 : [위치확인](http://www.toz.co.kr/branch/main/index.htm?id=24) 
 
+<img src="fig/think-stats-overview.png" width="70%" />
+
 > ### 교재 {.callout}
 > 통계적 사고 (ThinkStats2) : 프로그래머를 위한 확률과 통계  
->     - (번역): [https://github.com/statkclee/ThinkStats2](https://github.com/statkclee/ThinkStats2)  
->     - (원서): [http://greenteapress.com/thinkstats2/](http://greenteapress.com/thinkstats2/)
+>- (번역): [https://github.com/statkclee/ThinkStats2](https://github.com/statkclee/ThinkStats2)  
+>- (원서): [http://greenteapress.com/thinkstats2/](http://greenteapress.com/thinkstats2/)  
+>- [번역 버젼('15년 11월 17일)](./books/book-xwMOOC-20151117.pdf)  
+>&laquo;&laquo;&laquo;&laquo; 연습문제 초벌 번역  
+>&laquo;&laquo;&laquo;&laquo; 한국어판 서문 추가  
 
 ### LaTeX 사전 공부
 
@@ -32,7 +37,6 @@ title: 통계적 사고 워크샵
     - [LaTeX : 수학, BibTeX, 사용자 정의](https://github.com/statkclee/mini-course-materials/blob/kr/LaTeX_Math_and_BibTeX/bibtexMathInLatex-kr.pdf)
 
 [출처: OpenIntro.org LaTeX 저작 교육과정](https://github.com/OpenIntroOrg/mini-course-materials)
-
 
 ### 사전 준비
 
@@ -101,6 +105,9 @@ nsfg.py: All tests passed.
 *   [$100 달러 오픈 컴퓨터](http://computer.xwmooc.org) : [$100 달러 오픈 컴퓨터 워크샵](https://public.etherpad-mozilla.org/p/open-computer)
 *   [컴퓨터과학 언플러그드](http://unplugged.xwmooc.org)
 *   [러플(Rur-ple)](http://rur-ple.xwmooc.org/)
+*   파이썬 거북이
+    * [소프트웨어 카펜트리 거북이 (영문)](http://swcarpentry.github.io/python-novice-turtles/)
+    * [소프트웨어 카펜트리 거북이 (국문)](http://swcarpentry.github.io/python-novice-turtles/index-kr.html)
 *   [정보교육을 위한 파이썬](http://python.xwmooc.org/)
 *   [라즈베리 파이](http://raspberry-pi.xwmooc.org/)
 *   [소프트웨어 카펜트리](http://swcarpentry.xwmooc.org)
