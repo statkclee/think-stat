@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="thinkstats2.css">
+<title>분포 모형화 (Modeling distributions)</title>
+</head>
+<body>
+<a href="thinkstats2005.html"><img src="back.png" ALT="Previous"></a>
+<a href="index.html"><img src="up.png" ALT="Up"></a>
+<a href="thinkstats2007.html"><img src="next.png" ALT="Next"></a>
+<hr>
+<table cellpadding=10>
+
+<tr>
+
+<td valign="top" width=100 bgcolor="#DC143C">
+</td>
+
+<td valign="top" width=600>
+
+<p>This HTML version of is provided for convenience, but it
+is not the best format for the book.  In particular, some of the
+symbols are not rendered correctly.
+
+<p>You might prefer to read
+the <a href="http://thinkstats2.com/thinkstats2.pdf">PDF version</a>, or
+you can buy a hardcopy of the first edition at
+<a href="http://www.amazon.com/gp/product/1449307116/ref=as_li_qf_sp_asin_tl?ie=UTF8&tag=greenteapre01-20&linkCode=as2&camp=217145&creative=399373&creativeASIN=1449307116">Amazon</a>.
+<h1 class="chapter" id="sec50"><span class="c005">Chapter 5  분포 모형화 (Modeling distributions)</span></h1>
+<p><span class="c005">
+</span><a id="modeling"></a></p><p><span class="c005">지금까지 사용한 분포는 <span class="c012">경험적 분포 (empirical distributions)</span>라고 부른다.
+이유는 필연적으로 유한 표본인 경험적 관측치에 기반하고 있기 때문이다.</span></p><p><a id="hevea_default312"></a><span class="c005">
+</span><a id="hevea_default313"></a><span class="c005">
+</span><a id="hevea_default314"></a><span class="c005">
+</span><a id="hevea_default315"></a></p><p><span class="c005">수학 함수인 CDF로 특징 지어지는 <span class="c012">해석 분포 (analytic distribution)</span>가 대안이 된다.
+해석 분포가 경험적 분포를 모형화하는데 사용될 수 있다.
+이러한 맥락에서 <span class="c012">모형(model)</span>은 불필요한 부분을 덜어낸 단순화가 된다.
+이번 장에서 자주 사용되는 분포를 제시하고 이를 사용하여 다양한 출처를 가진 
+데이터를 모형화한다.</span></p><p><a id="hevea_default316"></a></p><p><span class="c005">이번 장에서 사용되는 코드는 <span class="c003">analytic.py</span>에 있다.
+코드를 다운로드하고 작업하는 것에 대한 정보는  </span><a href="thinkstats2001.html#code"><span class="c005">2</span></a><span class="c005">을 참조한다.</span></p><span class="c005">
+</span><h2 class="section" id="sec51"><span class="c005">5.1  지수분포 (exponential distribution)</span></h2>
+<p><span class="c005">
+</span><a id="exponential"></a><span class="c005">
+</span><a id="hevea_default317"></a><span class="c005">
+</span><a id="hevea_default318"></a></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2014.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.1: 다양한 모수를 갖는 지수분포 CDF.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="analytic_expo_cdf"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005"><span class="c012">지수 분포 (exponential distribution)</span>로 시작하는데 이유는 상대적으로 단순하기 때문이다.
+지수분포 CDF는 다음과 같다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">CDF</span>(<span class="c009">x</span>) = 1 − <span class="c009">e</span></span><sup><span class="c005">−λ <span class="c009">x</span></span></sup><span class="c005"> </span></td></tr>
+</table><p><span class="c005">
+
+모수 λ가 분포 형상(shape)을 결정한다. 
+그림 </span><a href="#analytic_expo_cdf"><span class="c005">6.1</span></a><span class="c005">에서 λ =  0.5, 1, 2 값을 가진
+CDF가 대략 모양이 어떤지 볼 수 있다.
+</span><a id="hevea_default319"></a></p><p><span class="c005">현실 세계에서 일련의 사건을 보고, 사건 간에 시간(<span class="c012">도착간격 시간, interarrival times</span>)을 측정할 때 지수분포가 등장한다.
+만약 사건이 언제든지 균등하게 발생할 것 같다면 도착간격 시간 분포는 지수분포같은 경향이 있다.
+</span><a id="hevea_default320"></a></p><p><span class="c005">일례로, 출생간 발생시간을 살펴보자. 1997년 12월 18일 호주 브리즈번
+</span><sup><a id="text1" href="#note1"><span class="c005">1</span></a></sup><span class="c005">
+에서 44명 신생아가 출생했다. 모든 44명 신생아 출생 시간이 지역신문에 출간되었다;
+전체 데이터셋은 <span class="c003">ThinkStats2</span> 저장소 <span class="c003">babyboom.dat</span> 파일에 담겨있다.
+</span><a id="hevea_default321"></a><span class="c005">
+</span><a id="hevea_default322"></a><span class="c005"> 
+</span><a id="hevea_default323"></a></p><pre class="verbatim"><span class="c005">
+    df = ReadBabyBoom()
+    diffs = df.minutes.diff()
+    cdf = thinkstats2.Cdf(diffs, label='actual')
+
+    thinkplot.Cdf(cdf)
+    thinkplot.Show(xlabel='minutes', ylabel='CDF')
+</span></pre><p><span class="c005"><span class="c003">ReadBabyBoom</span> 함수가 데이터 파일을 읽어들이고 <span class="c003">time</span>, <span class="c003">sex</span>, <code>weight_g</code>, <span class="c003">minutes</span>
+칼럼으로 구성된 데이터프레임을 반환한다.
+여기서 <span class="c003">minutes</span>가 자정 이후 출생시간을 분으로 변환한 시간정보를 담고 있다.
+</span><a id="hevea_default324"></a><span class="c005">
+</span><a id="hevea_default325"></a></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2015.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.2: 도착간격시간 CDF (좌측), log-y 척도로 된 CCDF (우측).</span></td></tr>
+</table></div><span class="c005">
+</span><a id="analytic_interarrival_cdf"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">
+<span class="c003">diffs</span>는 연속되는 출생시간 사이 차이가 되고 
+<span class="c003">cdf</span>는 출생간격 시간 분포가 된다.
+그림 </span><a href="#analytic_interarrival_cdf"><span class="c005">6.2</span></a><span class="c005"> (왼편)이 CDF를 나타낸다.
+전형적인 지수분포 형상을 지닌 처럼 보이지만, 어떻게 분간할 수 있을까?</span></p><p><span class="c005">한 방법은 <span class="c012">보완 CDF (complementary CDF)</span>를 플롯으로 그리는 것이다.
+보완 CDF는 log-y 척도로 1 − <span class="c009">CDF</span>(<span class="c009">x</span>)이다.
+지수분포 데이터에 대해서는 결과가 직선이다. 왜 그런지 살펴보자.</span></p><p><a id="hevea_default326"></a><span class="c005"> 
+</span><a id="hevea_default327"></a><span class="c005"> 
+</span><a id="hevea_default328"></a></p><p><span class="c005">독자가 생각하기에 지수분포를 따르는 데이터셋을 보완 CDF(CCDF) 플롯으로 그리면, 
+다음과 같은 함수가 나올 것으로 기대한다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">y</span> ≈ <span class="c009">e</span></span><sup><span class="c005">−λ <span class="c009">x</span></span></sup><span class="c005"> </span></td></tr>
+</table><p><span class="c005">
+양변에 로그를 취하면 다음과 같다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005">log<span class="c009">y</span> ≈ −λ <span class="c009">x</span></span></td></tr>
+</table><p><span class="c005">
+그래서, log-y 척도로 CCDF는 기울기 −λ인 직선이 된다.
+다음에 플롯을 생성하는 방법이 있다.
+</span><a id="hevea_default329"></a><span class="c005">
+</span><a id="hevea_default330"></a><span class="c005">
+</span><a id="hevea_default331"></a><span class="c005">
+</span><a id="hevea_default332"></a></p><pre class="verbatim"><span class="c005">
+    thinkplot.Cdf(cdf, complement=True)
+    thinkplot.Show(xlabel='minutes',
+                   ylabel='CCDF',
+                   yscale='log')
+</span></pre><p><span class="c005"><span class="c003">complement=True</span> 인자가 있어서, <span class="c003">thinkplot.Cdf</span>이 플롯을 그리기 전에
+보완 CDF를 계산한다. 그리고 <span class="c003">yscale=’log’</span>를 통해서 
+<span class="c003">thinkplot.Show</span>가 로그 척도로 <span class="c003">y</span>축을 고정한다.
+</span><a id="hevea_default333"></a><span class="c005">
+</span><a id="hevea_default334"></a></p><p><span class="c005">그림 </span><a href="#analytic_interarrival_cdf"><span class="c005">6.2</span></a><span class="c005"> (오른편)에 결과가 있다.
+정확하게 직선이 아니다. 이 데이터에 대해서 완벽한 모델로 지수 분포가 아니라는 것이 표시된다.
+기본 가정—출생이 아무 때고 균등하게 발생—이 정확하게 사실이 아닐 것이다.
+그럼에도 불구하고 지수분포로 이 데이터셋을 모형화하는 것이 합리적일 것이다.
+이와 같은 단순화로 단 하나의 모수로 분포를 요약할 수 있다.
+</span><a id="hevea_default335"></a></p><p><span class="c005">모수 λ가 율(rate)로 해석될 수 있다; 즉, 평균적으로 단위 시간에 
+발생하는 사건 수. 예제에서 44명의 신생아가 24시간내에 태어난다.
+그래서 율값이 분당 λ = 0.0306이 된다.
+지수분포 평균은 1/λ 으로 신생아 간에 출생 평균 시간은 32.7분이 된다.</span></p><span class="c005">
+</span><h2 class="section" id="sec52"><span class="c005">5.2  정규 분포 (normal distribution)</span></h2>
+<p><span class="c005">
+</span><a id="normal"></a></p><p><span class="c005">가우스 분포(Gaussian distribution)라고도 불리는 
+<span class="c012">정규 분포 (normal distribution)</span>가 흔히 사용되는데 이유는 많은 현상을 기술하고 
+최소한 근사적으로도 기술할 수 있기 때문이다.
+</span><a href="thinkstats2015.html#CLT"><span class="c005">4</span></a><span class="c005"> 절에서 다루게 되는데 이와 같은 보편성에는 이유가 있다.
+</span><a id="hevea_default336"></a><span class="c005">
+</span><a id="hevea_default337"></a><span class="c005">
+</span><a id="hevea_default338"></a><span class="c005">
+</span><a id="hevea_default339"></a><span class="c005">
+</span><a id="hevea_default340"></a><span class="c005">
+</span><a id="hevea_default341"></a><span class="c005">
+</span><a id="hevea_default342"></a><span class="c005">
+</span><a id="hevea_default343"></a></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">CDF</span>(<span class="c009">z</span>) = </span></td><td class="dcell"><table class="display"><tr><td class="dcell c013"><span class="c005">1</span></td></tr>
+<tr><td class="hbar"></td></tr>
+<tr><td class="dcell c013"><table class="display"><tr class="c019"><td class="dcell"><span class="c007">√</span></td><td class="dcell"><table class="c002 cellpadding0"><tr><td class="hbar"></td></tr>
+<tr><td class="c015"><span class="c005">2 π</span></td></tr>
+</table></td></tr>
+</table></td></tr>
+</table></td><td class="dcell"><span class="c005"> </span></td><td class="dcell"><span class="c008">∫</span></td><td class="dcell"><table class="display"><tr><td class="dcell c016"><span class="c011">z</span></td></tr>
+<tr><td class="dcell c016"><span class="c005"><br>
+<br>
+</span></td></tr>
+<tr><td class="dcell c016"><span class="c005">−∞</span></td></tr>
+</table></td><td class="dcell"><span class="c005"> <span class="c009">e</span></span><sup><span class="c005">−<span class="c009">t</span></span><sup><span class="c005">2</span></sup><span class="c005">/2</span></sup><span class="c005"> <span class="c009">dt</span> </span></td></tr>
+</table><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2016.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.3: 모수 범위에 따른 정규분포 CDF.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="analytic_gaussian_cdf"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">정규 분포는 모수 두개로 특성화된다: 평균 µ, 표준편차 σ.
+모수 µ=0과 σ=1을 갖는 정규분포를 <span class="c012">표준 정규 분포 (standard normal
+distribution)</span>라고 한다.
+정규분포 CDF는 닫힌 형식 해법(closed form solution)을 갖지 않는 적분으로 정의된다.
+하지만, 효율적으로 계산하는 알고리즘이 있다.
+알고리즘 중 하나가 SciPy을 통해 제공된다: <span class="c003">scipy.stats.norm</span>이
+정규분포를 표현하는 객체다. 표준 정규분포 CDF를 계산하는 <span class="c003">cdf</span> 메쏘드를 제공한다.</span></p><p><a id="hevea_default344"></a><span class="c005">
+</span><a id="hevea_default345"></a></p><pre class="verbatim"><span class="c005">
+&gt;&gt;&gt; import scipy.stats
+&gt;&gt;&gt; scipy.stats.norm.cdf(0)
+0.5
+</span></pre><p><span class="c005">결과값은 맞다: 표준 정규분포 중위수는 0 (평균과 같다)이고, 값의 절반이 중위수 아래 위치한다.
+그래서 <span class="c009">CDF</span>(0)은 0.5 이다.</span></p><p><span class="c005"><span class="c003">norm.cdf</span>은 옵션 모수를 받는다: <span class="c003">loc</span>가
+평균을 특정하고, <span class="c003">scale</span>는 표준편차를 특정한다.</span></p><p><span class="c005"><span class="c003">thinkstats2</span>는 상기 함수를 좀더 사용하기 쉽게 한다.
+<span class="c003">EvalNormalCdf</span> 메쏘드는 <span class="c003">mu</span>과 <span class="c003">sigma</span>을 인자로 받아 
+<span class="c003">x</span>에 CDF를 계산한다.</span></p><p><a id="hevea_default346"></a></p><pre class="verbatim"><span class="c005">
+def EvalNormalCdf(x, mu=0, sigma=1):
+    return scipy.stats.norm.cdf(x, loc=mu, scale=sigma)
+</span></pre><p><span class="c005">그림 </span><a href="#analytic_gaussian_cdf"><span class="c005">6.3</span></a><span class="c005">에 정규분포에 다양한 모수를 넣어 그린 CDF가 있다.
+곡선의 S자(sigmoid) 형상이 정규분포를 식별할 수 있게 하는 특성이다.</span></p><p><span class="c005">앞장에서 NSFG 출생 체중 분포를 살펴봤다.
+모든 정상 출산 체중에 대한 경험적 CDF와 동일한 평균과 분산으로 정규분포 CDF를 중첩하여 
+플롯으로 그린 것이 그림 </span><a href="#analytic_birthwgt_model"><span class="c005">6.4</span></a><span class="c005">이다.</span></p><p><a id="hevea_default347"></a><span class="c005">
+</span><a id="hevea_default348"></a><span class="c005">
+</span><a id="hevea_default349"></a><span class="c005">
+</span><a id="hevea_default350"></a></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2017.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.4: 정규모형과 출생체중 CDF.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="analytic_birthwgt_model"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">정규분포가 이 데이터셋에 대해서 좋은 모형이 된다.
+그래서 만약 모수 µ = 7.28과 σ = 1.24으로 
+분포를 요약한다면, 결과 오차(모형과 데이터 간 차이)가 작다.</span></p><p><a id="hevea_default351"></a><span class="c005">
+</span><a id="hevea_default352"></a></p><p><span class="c005">백분위수 10번째 아래에서 데이터와 모형 사이에 불일치가 있다.
+정규분포에서 예측되는 것보다 더 많이 체중이 적은 아이가 있다.
+만약 조산아에 특별히 관심이 있다면, 분포에서 이 부분을 잘 적합하는 것이 중요하다.
+그래서 정규분포를 사용하는 것이 적절하지 않을 수도 있다.</span></p><span class="c005">
+</span><h2 class="section" id="sec53"><span class="c005">5.3  정규확률그림 (Normal probability plot)</span></h2>
+<p><span class="c005">지수분포와 몇가지 분포에서 대해서 해석분포(analytic distribution)가 특정 데이터셋에 대해서
+적합한 모형인가를 테스트하는데 사용할 수 있는 간단한 변환이 있다.</span></p><p><a id="hevea_default353"></a><span class="c005">
+</span><a id="hevea_default354"></a><span class="c005">
+</span><a id="hevea_default355"></a></p><p><span class="c005">정규분포에 대해서 그러한 변환은 없다. 하지만, 
+<span class="c012">정규확률그림 (normal probability plot)</span>으로 불리는 대안이 있다.
+정규확률그림을 생성하는 방식이 두개 있다.: 어려운 방식과 쉬운 방식.
+어려운 방식에 관심이 있다면 <span class="c003">https://en.wikipedia.org/wiki/Normal_probability_plot</span>에서 
+자세한 정보를 얻을 수 있다.
+다음에 쉬운 방식이 있다.
+</span><a id="hevea_default356"></a><span class="c005">
+</span><a id="hevea_default357"></a><span class="c005">
+</span><a id="hevea_default358"></a><span class="c005">
+</span><a id="hevea_default359"></a><span class="c005">
+</span><a id="hevea_default360"></a><span class="c005">
+</span><a id="hevea_default361"></a></p><ol class="enumerate" type=1><li class="li-enumerate"><span class="c005">표본에 있는 값을 정렬한다.</span></li><li class="li-enumerate"><span class="c005">표준정규분포(µ=0, σ=1)에서 표본과 동일한 크기를 갖는 난수을 생성하고
+정렬한다.
+</span><a id="hevea_default362"></a></li><li class="li-enumerate"><span class="c005">표본에서 나온 정렬된 값과 난수를 플롯으로 그린다.</span></li></ol><p><span class="c005">만약 표본 분포가 근사적으로 정규분포라면, 결과는 
+절편 <span class="c003">mu</span>, 기울기 <span class="c003">sigma</span>를 갖는 직선이다.
+<span class="c003">thinkstats2</span>에 <span class="c003">NormalProbability</span>이 있다.
+표본을 인자로 받아서 넘파이(NumPy) 배열 두개를 반환한다.
+</span><a id="hevea_default363"></a></p><pre class="verbatim"><span class="c005">
+xs, ys = thinkstats2.NormalProbability(sample)
+</span></pre><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2018.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.5: 정규분포에서 나온 임의 표본에 대한 정규확률그림.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="analytic_normal_prob_example"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005"><span class="c003">ys</span>는 <span class="c003">sample</span>에서 정렬된 값이 담겨있다; 
+<span class="c003">xs</span>에는 표준정규분포에서 생성된 난수가 담겨있다.</span></p><p><span class="c005"><span class="c003">NormalProbability</span>을 테스트하기 위해서 다양한 모수를 가진 
+정규분포에서 모조 샘플을 생성했다.
+그림 </span><a href="#analytic_normal_prob_example"><span class="c005">6.5</span></a><span class="c005">에 결과가 있다.
+선들이 근사적으로 직선으로, 평균에 있는 값보다 벗어난 값을 꼬리에 갖는다.</span></p><p><span class="c005">이제 실제 데이터에 적합을 시도해 보자.
+앞절로부터 출생 체중 데이터에 대해 정규확률그림을 생성하는 코드가 다음에 있다.
+모형을 표현하는 회색선과 실제 데이터를 표현하는 파란선을 플롯으로 그린다.</span></p><p><a id="hevea_default364"></a><span class="c005">
+</span><a id="hevea_default365"></a></p><pre class="verbatim"><span class="c005">
+def MakeNormalPlot(weights):
+    mean = weights.mean()
+    std = weights.std()
+
+    xs = [-4, 4]
+    fxs, fys = thinkstats2.FitLine(xs, inter=mean, slope=std)
+    thinkplot.Plot(fxs, fys, color='gray', label='model')
+
+    xs, ys = thinkstats2.NormalProbability(weights)
+    thinkplot.Plot(xs, ys, label='birth weights')
+</span></pre><p><span class="c005"><span class="c003">weights</span>는 출생 체중 판다스 시리즈다; <span class="c003">mean</span>과 <span class="c003">std</span>은
+각각 평균과 표준편차다.
+</span><a id="hevea_default366"></a><span class="c005">
+</span><a id="hevea_default367"></a><span class="c005">
+</span><a id="hevea_default368"></a><span class="c005">
+</span><a id="hevea_default369"></a></p><p><span class="c005"><span class="c003">FitLine</span>이 시퀀스 <span class="c003">xs</span>, 절편, 기울기를 인자로 받는다;
+반환하는 <span class="c003">xs</span>와 <span class="c003">ys</span>는 <span class="c003">xs</span> 값에서 계산되어 인자로 받은 모수를 가진 직선이다.</span></p><p><span class="c005"><span class="c003">NormalProbability</span>은 <span class="c003">xs</span>와 <span class="c003">ys</span>를 반환하는데 
+표준정규분포에서 나온 값과 <span class="c003">weights</span>에서 나온 값을 담고 있다.
+만약 체중 분포가 정규분포를 따른다면, 데이터도 모델과 매칭되어야 한다.</span></p><p><a id="hevea_default370"></a></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2019.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.6: 출생체중에 대한 정규확률그림.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="analytic_birthwgt_normal"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">그림 </span><a href="#analytic_birthwgt_normal"><span class="c005">6.6</span></a><span class="c005">이 전체 정상 출생과 더불어 만삭(임신기간이 36주 이상)에 대한 결과를 보여준다.
+두 곡선 모두 평균 근처에서 모형과 매칭되고 꼬리에서 차이가 난다.
+가장 무거운 아이가 모형이 예측한 것보다 더 무겁고, 가장 가벼운 아이는 더 가볍다.</span></p><p><a id="hevea_default371"></a></p><p><span class="c005">단지 만삭 아이만 선택해서, 가장 가벼운 몇몇 아이를 제거하면 분포 아래쪽 꼬리에 있는 불일치를 줄일 수 있다.</span></p><p><span class="c005">정규분포 모형이 평균에서부터 몇 표준편차 내에서 분포를 잘 기술하지만, 꼬리 부근에서는 아니라고 플롯 그래프를 통해서 알 수 있다.
+실제 목적에 얼마나 부합되는지는 목적에 달려있다.
+</span><a id="hevea_default372"></a><span class="c005">
+</span><a id="hevea_default373"></a><span class="c005">
+</span><a id="hevea_default374"></a><span class="c005">
+</span><a id="hevea_default375"></a></p><span class="c005">
+</span><h2 class="section" id="sec54"><span class="c005">5.4  로그 정규분포 (lognormal distribution)</span></h2>
+<p><span class="c005">
+</span><a id="brfss"></a><span class="c005">
+</span><a id="lognormal"></a></p><p><span class="c005">만약 값을 로그 취한 집합이 정규분포라면, 이 값은 <span class="c012">로그 정규분포 (lognormal distribution)</span>다. 로그 정규분포 CDF는 <span class="c009">x</span>를 log<span class="c009">x</span>로 치환한 정규분포 CDF와 동일하다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c011">CDF</span><sub><span class="c011">lognormal</span></sub><span class="c005">(<span class="c009">x</span>) = <span class="c009">CDF</span></span><sub><span class="c011">normal</span></sub><span class="c005">(log<span class="c009">x</span>)</span></td></tr>
+</table><p><span class="c005">
+로그 정규분포 모수는 일반적으로 µ와 σ로 표기한다.
+하지만, 기억할 것은 모수가 평균과 표준편차는 <em>아니다</em>;
+로그 정규분포 평균은 exp(µ +σ</span><sup><span class="c005">2</span></sup><span class="c005">/2)이고, 표준편차는 조금 복잡한다.(<span class="c003">http://wikipedia.org/wiki/Log-normal_distribution</span>를 참조한다)
+</span><a id="hevea_default376"></a><span class="c005"> 
+</span><a id="hevea_default377"></a><span class="c005"> 
+</span><a id="hevea_default378"></a><span class="c005">
+</span><a id="hevea_default379"></a><span class="c005">
+</span><a id="hevea_default380"></a><span class="c005">
+</span><a id="hevea_default381"></a></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005">
+<img src="thinkstats2020.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.7: 선형척도(좌측)와 로그척도(우측)로 본 성인체중에 대한 CDF.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="brfss_weight"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">만약 표본이 근사적으로 로그 정규분포이고 log-x 척도로 CDF 플롯을 그린다면, 정규분포 특성의 형상을 갖는다.
+표본이 로그 정규분포 모형과 얼마나 잘 적합하는지 테스트하기 위해서, 
+표본값에 로그를 취해서 정규확률그림을 생성할 수 있다.</span></p><p><a id="hevea_default382"></a><span class="c005">
+</span><a id="hevea_default383"></a></p><p><span class="c005">예제로 성인 체중 분포를 살펴보는데 근사적으로 로그 정규분포다.</span><sup><a id="text2" href="#note2"><span class="c005">2</span></a></sup></p><p><span class="c005">만성 질환 예방 및 건강 증진을 위한 국립 센터 (National Center for Chronic Disease Prevention and Health Promotion)에서는 
+행동 위험 요인 감시 시스템(Behavioral Risk Factor Surveillance System, BRFSS)</span><sup><a id="text3" href="#note3"><span class="c005">3</span></a></sup><span class="c005">의 일부문으로 매년 조사를 실시한다.
+2008년 414,509 응답자를 대상으로 인터뷰했고 인구통계, 건강, 건강 위험에 관해서 설문했다. 수집한 데이터 중에 398,484 응답자 킬로그램으로 표시된 체중정보가 있다.
+</span><a id="hevea_default384"></a><span class="c005">
+</span><a id="hevea_default385"></a></p><p><span class="c005">이 책을 위한 저장소에 BRFSS에 관한 데이터를 담고 있는 고정폭 아스키(ASCII)파일, <span class="c003">CDBRFS08.ASC.gz</span>와 더불어 파일을 읽고 데이터를 분석하는 <span class="c003">brfss.py</span>파일도 함께 있다.</span></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005">
+<img src="thinkstats2021.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.8: 선형척도(좌측)와 로그척도(우측)로 본 성인체중에 대한 정규확률그림.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="brfss_weight_normal"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">그림 </span><a href="#brfss_weight"><span class="c005">??</span></a><span class="c005"> (왼편)이 정규분포 모형에 선형 척도로 성인 체중 분포를 나타낸다.
+그림 </span><a href="#brfss_weight"><span class="c005">??</span></a><span class="c005"> (오른편)이 로그 정규분포 모형으로 로그 척도로 동일한 분포를 나타낸다.
+로그 정규 모형이 더 나은 적합이지만 데이터를 이와 같이 표현하는 것이 차이점을 특별히 인상적으로 만들지는 못한다.
+</span><a id="hevea_default386"></a><span class="c005"> 
+</span><a id="hevea_default387"></a></p><p><span class="c005">그림 </span><a href="#brfss_weight_normal"><span class="c005">6.7</span></a><span class="c005">이 성인 체중 <span class="c009">w</span>에 대한 정규확률그림과 
+로그 변환한 체중 log</span><sub><span class="c005">10</span></sub><span class="c005"> <span class="c009">w</span>에 대한 정규확률그림을 보여준다.
+이제 데이터가 정규분포 모형에서 상당히 벗아난 것이 명확하다.
+다른 한편으로 로그 정규모형은 데이터에 대한 좋은 매칭을 보여준다.</span></p><p><a id="hevea_default388"></a><span class="c005"> 
+</span><a id="hevea_default389"></a><span class="c005">
+</span><a id="hevea_default390"></a><span class="c005"> 
+</span><a id="hevea_default391"></a><span class="c005">
+</span><a id="hevea_default392"></a><span class="c005"> 
+</span><a id="hevea_default393"></a><span class="c005">
+</span><a id="hevea_default394"></a><span class="c005"> 
+</span><a id="hevea_default395"></a><span class="c005"> 
+</span><a id="hevea_default396"></a><span class="c005">
+</span><a id="hevea_default397"></a><span class="c005"> 
+</span><a id="hevea_default398"></a></p><span class="c005">
+</span><h2 class="section" id="sec55"><span class="c005">5.5  파레토 분포 (Pareto distribution)</span></h2>
+<p><span class="c005">
+</span><a id="hevea_default399"></a><span class="c005">
+</span><a id="hevea_default400"></a><span class="c005">
+</span><a id="hevea_default401"></a></p><p><span class="c005"><span class="c012">파레토 분포 (Pareto distribution)</span>는 경제학자 빌프레도 파레토(Vilfredo Pareto) 이름에서 나왔는데, 이것을 사용해서 부(
+<span class="c003">http://wikipedia.org/wiki/Pareto_distribution</span> 참조)의 분포를 기술했다.
+그후, 도시와 마을 크기, 모래 입자와 운석, 산불과 지진을 포함한 자연과학과 사회과학 현상을 기술하는데 사용되었다.</span></p><p><a id="hevea_default402"></a></p><p><span class="c005">파레토 분석 CDF는 다음과 같다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">CDF</span>(<span class="c009">x</span>) = 1 − </span></td><td class="dcell"><span class="c005">⎛<br>
+⎜<br>
+⎜<br>
+⎝</span></td><td class="dcell"><table class="display"><tr><td class="dcell c013"><span class="c011">x</span></td></tr>
+<tr><td class="hbar"></td></tr>
+<tr><td class="dcell c013"><span class="c011">x</span><sub><span class="c011">m</span></sub></td></tr>
+</table></td><td class="dcell"><span class="c005"> </span></td><td class="dcell"><span class="c005">⎞<br>
+⎟<br>
+⎟<br>
+⎠</span></td><td class="dcell"><table class="display"><tr><td class="dcell c016"><span class="c005">−α</span></td></tr>
+<tr><td class="dcell c016"><span class="c005"><br>
+<br>
+<br>
+</span></td></tr>
+<tr><td class="dcell c016"><span class="c005">&nbsp;</span></td></tr>
+</table></td><td class="dcell"><span class="c005"> </span></td></tr>
+</table><p><span class="c005">
+모수 <span class="c009">x</span></span><sub><span class="c011">m</span></sub><span class="c005">와 α이 분포 위치와 형상을 결정한다.
+<span class="c009">x</span></span><sub><span class="c011">m</span></sub><span class="c005">이 가능한 최소값이다. 
+그림 </span><a href="#analytic_pareto_cdf"><span class="c005">6.8</span></a><span class="c005">에 <span class="c009">x</span></span><sub><span class="c011">m</span></sub><span class="c005"> = 0.5와 
+다양한 α 값으로 표현한 파레토 분포 CDF가 있다.
+</span><a id="hevea_default403"></a></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2022.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.9: 다른 모수를 갖는 파레토 분포 CDF.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="analytic_pareto_cdf"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">경험적 분포가 파레토 분포에 적합성을 나타내는 간단한 시각 테스트가 있다: log-log 척도에서 CCDF는 직선으로 보인다. 왜 그런지 살펴보자.</span></p><p><span class="c005">만약 선형척도에서 파레토 분포에서 나온 표본 CCDF를 플롯으로 그린다면, 다음과 같은 함수가 기대된다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">y</span> ≈ </span></td><td class="dcell"><span class="c005">⎛<br>
+⎜<br>
+⎜<br>
+⎝</span></td><td class="dcell"><table class="display"><tr><td class="dcell c013"><span class="c011">x</span></td></tr>
+<tr><td class="hbar"></td></tr>
+<tr><td class="dcell c013"><span class="c011">x</span><sub><span class="c011">m</span></sub></td></tr>
+</table></td><td class="dcell"><span class="c005"> </span></td><td class="dcell"><span class="c005">⎞<br>
+⎟<br>
+⎟<br>
+⎠</span></td><td class="dcell"><table class="display"><tr><td class="dcell c016"><span class="c005">−α</span></td></tr>
+<tr><td class="dcell c016"><span class="c005"><br>
+<br>
+<br>
+</span></td></tr>
+<tr><td class="dcell c016"><span class="c005">&nbsp;</span></td></tr>
+</table></td><td class="dcell"><span class="c005"> </span></td></tr>
+</table><p><span class="c005">
+양변에 로그를 취하면 다음과 같다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005">log<span class="c009">y</span> ≈ −α (log<span class="c009">x</span> − log<span class="c009">x</span></span><sub><span class="c011">m</span></sub><span class="c005">)</span></td></tr>
+</table><p><span class="c005">
+그래서 만약 log<span class="c009">x</span>에 log<span class="c009">y</span>를 플롯으로 그리면, 
+기울기 −α과 절편 α log<span class="c009">x</span></span><sub><span class="c011">m</span></sub><span class="c005">을 가진 직선처럼 보여야만 한다.</span></p><p><span class="c005">예제로, 도시와 마을 크기를 살펴보자.
+미국 인구 조사국 (U.S. Census Bureau)에서 미국에 있는 모든 도시와 마을 인구정보를 게시한다.
+</span><a id="hevea_default404"></a><span class="c005"> 
+</span><a id="hevea_default405"></a><span class="c005">
+</span><a id="hevea_default406"></a><span class="c005"> 
+</span><a id="hevea_default407"></a><span class="c005"> 
+</span><a id="hevea_default408"></a></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2023.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.10: 로그-로그 척도로 도시 인구 CCDFs.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="populations_pareto"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">웹사이트 <span class="c003">http://www.census.gov/popest/data/cities/totals/2012/SUB-EST2012-3.html</span>에서 데이터를 다운로드했다; 책 저장소에 <code>PEP_2012_PEPANNRES_with_ann.csv</code> 파일 이름으로 되어있다.
+저장소에 <span class="c003">populations.py</span> 파이썬 프로그램이 있어 파일을 읽고 인구 분포를 플롯으로 그린다.</span></p><p><span class="c005">그림 </span><a href="#populations_pareto"><span class="c005">6.9</span></a><span class="c005">에 log-log 척도로 인구 CCDF가 있다.
+10</span><sup><span class="c005">−2</span></sup><span class="c005"> 아래 가장 큰 1% 도시와 마을이 직선을 따라 아래를 향한다. 몇몇 연구자와 마찬가지로 분포 꼬리가 파레토 모형에 적합하다고 결론을 내릴 수 있다.
+</span><a id="hevea_default409"></a></p><p><span class="c005">다른 한편으로 로그 정규분포도 또한 데이터를 잘 모형화한다. 
+그림 </span><a href="#populations_normal"><span class="c005">6.10</span></a><span class="c005">에 인구 CDF의 로그 정규분포 모형(왼쪽), 정규확률그림(오른쪽)이 있다. 두 플롯 그림 모두 데이터와 모형 사이 좋은 적합을 보여준다.
+</span><a id="hevea_default410"></a></p><p><span class="c005">모형 어느 것도 완벽하지 않다. 파레토 모형은 단지 가장 큰 1% 도시에만 적용되지만 분포의 그 특정 부분에 더 적합이 잘 된다. 
+로그 정규 모형은 99% 다른 부분에 더 적합이 잘 된다.
+어느 모형이 적절한가는 분포 어느 부분에 관련이 있는지에 달려 있다.</span></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2024.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 5.11: 로그-로그 척도(좌측)로 본 도시인구 CDF, 로그변환 인구(우축)의 정규확률그림.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="populations_normal"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><span class="c005">
+</span><h2 class="section" id="sec56"><span class="c005">5.6  난수 생성하기 (Generating random numbers)</span></h2>
+<p><span class="c005">
+</span><a id="hevea_default411"></a><span class="c005">
+</span><a id="hevea_default412"></a><span class="c005">
+</span><a id="hevea_default413"></a><span class="c005">
+</span><a id="hevea_default414"></a><span class="c005">
+</span><a id="hevea_default415"></a><span class="c005">
+</span><a id="hevea_default416"></a><span class="c005">
+</span><a id="hevea_default417"></a></p><p><span class="c005">해석 CDF(analytic CDF)를 사용해서 주어진 분포함수 <span class="c009">p</span> = <span class="c009">CDF</span>(<span class="c009">x</span>)로 난수를 생성한다. 역 CDF를 계산하는 효율적인 방식이 있다면, 
+0과 1 사이 균등분포에서 <span class="c009">p</span>를 선택하고 나서 <span class="c009">x</span> = <span class="c009">ICDF</span>(<span class="c009">p</span>)를 선택함으로써 적절한 분포 난수를 생성할 수 있다.
+</span><a id="hevea_default418"></a><span class="c005">
+</span><a id="hevea_default419"></a></p><p><span class="c005">예를 들어 지수분포 CDF는 다음과 같다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">p</span> = 1 − <span class="c009">e</span></span><sup><span class="c005">−λ <span class="c009">x</span></span></sup><span class="c005"> </span></td></tr>
+</table><p><span class="c005">
+<span class="c009">x</span>에 대해 풀게되면 다음이 된다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">x</span> = −log(1 − <span class="c009">p</span>) / λ </span></td></tr>
+</table><p><span class="c005">
+그래서 파이썬 코드로 다음과 같이 작성할 수 있다.
+</span></p><pre class="verbatim"><span class="c005">
+def expovariate(lam):
+    p = random.random()
+    x = -math.log(1-p) / lam
+    return x
+</span></pre><p><span class="c005">함수 <span class="c003">expovariate</span>는 <span class="c003">lam</span>을 인자로 받아
+모수 <span class="c003">lam</span>인 지수분포에서 생성된 난수를 반환한다.</span></p><p><span class="c005">파이썬 코드 구현에 두가지 주의점이 있다: 
+<code>lambda</code>가 파이썬 예약어(keyword)여서 모수를 <code>lam</code>으로 했다. 또한 log0가 정의되어 있지 않기 때문에, 약간 더 주의해야 한다.
+<span class="c003">random.random</span> 구현코드는 0을 반환할 수 있지만 1은 할 수 없다.
+그래서, 1 − <span class="c009">p</span>은 1이 될 수는 있지만 0은 될 수 없어서 <span class="c003">log(1-p)</span>은 항상 정의된다. 
+</span><a id="hevea_default420"></a></p><span class="c005">
+</span><h2 class="section" id="sec57"><span class="c005">5.7  왜 모형인가?</span></h2>
+<p><span class="c005">
+</span><a id="hevea_default421"></a></p><p><span class="c005">이 장의 시작에서 많은 현실 세계 현상이 해석 분포(analytic distribution)으로 모형화될 수 있다고 말했다.
+“그래서,” “뭐?” 라고 물을 수도 있다.
+</span><a id="hevea_default422"></a></p><p><span class="c005">모든 모형처럼, 해석분포는 추상화다. 의미하는 바은 관련없다고 판단되는 세부적인 사항을 생략한다는 것이다. 예를 들어, 관찰된 분포에는 표본 특유의 측정오류나 유별난 점이 포함될 수 있다; 해석 모형은 이러한 유별난 점을 매끈하게 평활한다.
+</span><a id="hevea_default423"></a></p><p><span class="c005">해석 모형은 또한 일종의 데이터 압축이다. 모형이 테이터셋에 잘 적합될 때, 적은 모수 집합으로 대량의 데이터를 요약할 수 있다.
+</span><a id="hevea_default424"></a><span class="c005">
+</span><a id="hevea_default425"></a></p><p><span class="c005">때때로, 자연현상에서 나온 데이터가 해석 분포에 잘 적합되는 것을 보면 참 놀랍니다. 하지만, 이같은 관찰이 물리적 시스템에 대한 통찰(insight)을 제공한다.
+때때로 관측된 분포가 왜 특별한 형태를 갖는지 설명할 수 있다.
+예를 들어, 파레토 분포는 긍정적 피드백을 생성하는 과정(generative process)의 결과다 (소위 선호적 연결 과정 (preferential attachment processes): <span class="c003">http://wikipedia.org/wiki/Preferential_attachment</span> 사이트를 참조.)
+</span><a id="hevea_default426"></a><span class="c005">
+</span><a id="hevea_default427"></a><span class="c005">
+</span><a id="hevea_default428"></a><span class="c005">
+</span><a id="hevea_default429"></a><span class="c005">
+</span><a id="hevea_default430"></a></p><p><span class="c005">또한, </span><a href="thinkstats2015.html#analysis"><span class="c005">15</span></a><span class="c005"> 장에서 살펴보듯이 해석 분포가 수학적 분석으로 이끈다. </span></p><p><span class="c005">하지만, 모든 모형이 완전하지 않다는 것을 기억하는 것이 중요하다.
+현실 세계에서 나온 데이터는 결코 완벽하게 해석 분포에 적합되지 않는다. 종종 사람들이 데이터가 모형에서 생성된 것처럼 말을 한다; 예를 들어, 사람 신장분포가 정규분포에서 나왔다거나 소득 분포가 로그정규분포에서 나왔다고 말한다. 문자 그대로 받아들이면, 이러한 주장은 진실이 아니다; 항상 현실 세계와 수학적 모형 사이에는 차이가 있다.</span></p><p><span class="c005">현실 세계의 중요한 측면을 포착하고 불필요한 세부사항을 배제하면 모형은 유용하다. 하지만, “중요하거나(relevant)” “불필요한(unneeded)” 것은 모형을 사용해서 무엇을 계획중인가에 달려있다.</span></p><span class="c005">
+</span><h2 class="section" id="sec58"><span class="c005">5.8  연습문제</span></h2>
+<p><span class="c005">아래 연습문제에 대해서, <code>chap05ex.ipynb</code> 파일로 시작할 수 있다.
+저자 해답은 <code>chap05soln.ipynb</code> 파일에 나와 있다.</span></p><div class="theorem"><span class="c005"><span class="c012">Exercise 1</span>  </span><p><span class="c005"><em>BRFSS(</em></span><a href="#lognormal"><span class="c005"><em>4</em></span></a><span class="c005"><em> 절 참조)에서, 
+신장 분포의 경우 남자는 </em>µ = 178<em> cm, </em>σ = 7.7<em> cm
+여자는 </em>µ = 163<em> cm, </em>σ = 7.3<em> cm을 모수로 갖는 정규분포다.</em></span></p><p><a id="hevea_default431"></a><span class="c005">
+</span><a id="hevea_default432"></a><span class="c005">
+</span><a id="hevea_default433"></a><span class="c005">
+</span><a id="hevea_default434"></a><span class="c005">
+</span><a id="hevea_default435"></a><span class="c005">
+</span><a id="hevea_default436"></a><span class="c005">
+</span><a id="hevea_default437"></a></p><p><span class="c005"><em>블루 맨 그룹(Blue Man Group)에 가입하기 위해서는 
+5’10” 에서 6’1” 사이 남자여야 한다(<span class="c003">http://bluemancasting.com</span> 참조). 
+미국 남성 인구의 어느 정도 비율이 이 범위에 있는가?
+힌트: <span class="c003">scipy.stats.norm.cdf</span>을 사용한다.
+</em></span><a id="hevea_default438"></a></p></div><div class="theorem"><span class="c005"><span class="c012">Exercise 2</span>  <em>
+파레토 분포에 대한 감각을 갖기 위해서,
+만약 사람 신장의 분포가 파레토라면 세상이 얼마나 달라지는지 살펴보자.
+</em><span class="c009">x</span></span><sub><span class="c011">m</span></sub><span class="c005"> = 1<em> m, </em>α = 1.7<em> 모수로, 일리있는 최소값 1 m, 중위수 1.5 m 를 갖는 
+분포가 된다.</em></span><p><a id="hevea_default439"></a><span class="c005">
+</span><a id="hevea_default440"></a><span class="c005">
+</span><a id="hevea_default441"></a></p><p><span class="c005"><em>상기 분포를 도식화하세요. 파레토 세상에서 평균 사람 신장은 얼마인가?
+인구의 얼마나 평균보다 더 적은가?
+만약 파레토 세상에 70억 사람이 있다면, 얼마나 많은 사람들이 1 km 보다
+더 클 것으로 예상하는가? 가장 작은 사람은 신장이 얼마나 될 것으로 예상하는가?
+</em></span><a id="hevea_default442"></a></p></div><div class="theorem"><span class="c005"><span class="c012">Exercise 3</span>  
+</span><a id="weibull"></a><p><span class="c005"><em>와이불 분포(Weibull distribution)는 고장 분석에서 나오는 지수분포를 일반화한 것이다
+(<span class="c003">http://wikipedia.org/wiki/Weibull_distribution</span> 참조). CDF는 다음과 같다.
+</em></span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">CDF</span>(<span class="c009">x</span>) = 1 − <span class="c009">e</span></span><sup><span class="c005">−(<span class="c009">x</span> / λ)</span><sup><span class="c011">k</span></sup></sup><span class="c005"> </span></td></tr>
+</table><p><span class="c005"><em>
+와이블 분포를 직선처럼 보이게 하는 변환을 찾을 수 있을까요?
+직선의 기울기와 절편은 무엇을 나타내는가?
+</em></span><a id="hevea_default443"></a><span class="c005">
+</span><a id="hevea_default444"></a><span class="c005">
+</span><a id="hevea_default445"></a><span class="c005">
+</span><a id="hevea_default446"></a><span class="c005">
+</span><a id="hevea_default447"></a></p><p><span class="c005"><em><span class="c003">random.weibullvariate</span>을 사용해서 와이블 분포에서 표본을 생성하시오.
+그리고 이를 사용해서 분포를 테스트하시오.</em></span></p></div><div class="theorem"><span class="c005"><span class="c012">Exercise 4</span>  
+<span class="c009">n</span><em>의 적은 값으로, 정확하게 해석 분포에 적합되는
+경험분포를 기대하지 못한다.
+적합 품질을 평가하는 한 방법이 해석적 분포로부터 표본을 생성하고 
+데이터와 얼마나 잘 매칭되는지 살펴보는 것이다.</em></span><p><a id="hevea_default448"></a><span class="c005">
+</span><a id="hevea_default449"></a><span class="c005">
+</span><a id="hevea_default450"></a></p><p><span class="c005"><em>예를 들어, </em></span><a href="#exponential"><span class="c005"><em>1</em></span></a><span class="c005"><em> 절에서,
+출생사이 시간 분포를 도식화했고 근사적으로 지수분포라는 것을 보았다.
+하지만, 분포는 단지 데이터가 44에 불과하다.
+데이터가 지수분포에서 나왔는지 살펴보기 위해서,
+출생사이 약 33분인, 데이터와 동일한 평균을 갖는 지수분포에서 데이터를 44개 생성한다.</em></span></p><p><span class="c005"><em>임의 확률 표본의 분포를 도식화하고, 실제 분포와 비교한다.
+<span class="c003">random.expovariate</span> 을 사용해서 값을 생성한다.</em></span></p></div><div class="theorem"><span class="c005"><span class="c012">Exercise 5</span>  <em>
+이책을 위한 저장소에서, <span class="c003">mystery0.dat</span>, 
+<span class="c003">mystery1.dat</span>, 등으로 불리는 데이터 파일을 찾을 수 있다.
+해석분포에서 나온 난수열을 각 파일이 담고 있다.</em></span><p><a id="hevea_default451"></a></p><p><span class="c005"><em><code>test_models.py</code> 파일도 찾을 수 있는데, 이 파일은
+파일에서 데이터를 읽고 다양한 변환으로 CDF를 도식화한다.
+다음과 같이 실행할 수 있다:</em></span></p><pre class="verbatim"><span class="c005"><em>
+$ python test_models.py mystery0.dat
+</em></span></pre><p><span class="c005"><em>도식화된 결과에 기반해서, 어떤 유형의 분포가 각 파일을 생성했는지 추론할 수 있어야 한다.
+만약 막힌다면, <span class="c003">mystery.py</span> 파일을 살펴보는데, 파일을 생성한 코드가 담겨있다.</em></span></p></div><div class="theorem"><span class="c005"><span class="c012">Exercise 6</span>  
+</span><a id="income"></a><p><span class="c005"><em>부와 소득의 분포를 종종 로그정규분포와 파레토 분포로 모형화한다.
+어느 것이 더 나은지 알아내기 위해서, 데이터를 들여다 보자.
+</em></span><a id="hevea_default452"></a><span class="c005">
+</span><a id="hevea_default453"></a><span class="c005">
+</span><a id="hevea_default454"></a><span class="c005">
+</span><a id="hevea_default455"></a></p><p><span class="c005"><em>인구동향조사(Current Population Survey, CPS)는 노동통계국(Bureau of Labor Statistics)과 
+인구조사국(Census Bureau)의 공동작업으로 소득과 관련된 변수를 연구한다.
+2013년에 수집된 데이터는 <span class="c003">http://www.census.gov/hhes/www/cpstables/032013/hhinc/toc.htm</span>에서 다운로드 받을 수 있다.
+저자는 가구소득 정보를 갖는 엑셀 파일 <span class="c003">hinc06.xls</span> 을 다운로드 받아서,
+이책의 저장소에서 찾을 수 있는 CSV 파일 <span class="c003">hinc06.csv</span>로 변환했다.
+이 CSV 파일을 불러읽는 <span class="c003">hinc.py</span> 파일도 함께 있다.</em></span></p><p><a id="hevea_default456"></a><span class="c005">
+</span><a id="hevea_default457"></a><span class="c005">
+</span><a id="hevea_default458"></a></p><p><span class="c005"><em>이 데이터셋에서 소득분포를 추출하라. 이번 장에서 학습한 어떤 해석분포가 데이터에 대해 좋은 모형이 되는가?
+이 연습문제에 대한 해답은 <span class="c003">hinc_soln.py</span> 파일에 나와 있다.
+</em></span><a id="hevea_default459"></a></p></div><span class="c005">
+</span><h2 class="section" id="sec59"><span class="c005">5.9  용어 사전</span></h2>
+<ul class="itemize"><li class="li-itemize"><span class="c005">경험적 분포 (empirical distribution): 표본 값의 분포 
+</span><a id="hevea_default460"></a><span class="c005"> 
+</span><a id="hevea_default461"></a></li><li class="li-itemize"><span class="c005">해석 분포 (analytic distribution): CDF가 해석함수인 분포.
+</span><a id="hevea_default462"></a><span class="c005">
+</span><a id="hevea_default463"></a></li><li class="li-itemize"><span class="c005">모형 (model): 유용한 단순화. 해석 분포는 종종 많이 복잡한 경험적 분포에 대한 좋은 모형이다.
+</span><a id="hevea_default464"></a></li><li class="li-itemize"><span class="c005">도착간격시간 (interarrival time): 두 사건 사이 경과 시간.
+</span><a id="hevea_default465"></a></li><li class="li-itemize"><span class="c005">보완 CDF (complementary CDF): 
+값 <span class="c009">x</span>에서 <span class="c009">x</span>를 넘는 값 비율로 매칭하는 함수, 1 − <span class="c009">CDF</span>(<span class="c009">x</span>).
+</span><a id="hevea_default466"></a><span class="c005"> 
+</span><a id="hevea_default467"></a><span class="c005"> 
+</span><a id="hevea_default468"></a></li><li class="li-itemize"><span class="c005">표준정규분포 (standard normal distribution): 
+평균 0과 표준편차 1을 갖는 정규분포.
+</span><a id="hevea_default469"></a></li><li class="li-itemize"><span class="c005">정규확률그림 (normal probability plot): 표본값과 표준정규분포에서 나온 난수를 대비하여 플롯하여 그린 그림.
+</span><a id="hevea_default470"></a><span class="c005">
+</span><a id="hevea_default471"></a></li></ul><span class="c005">
+</span><hr class="footnoterule"><dl class="thefootnotes"><dt class="dt-thefootnotes"><span class="c005">
+</span><a id="note1" href="#text1"><span class="c005">1</span></a></dt><dd class="dd-thefootnotes"><span class="c005"><div class="footnotetext">예제에 나오는 자료와 정보는 저널 논문에 기반한다. Dunn, “A Simple Dataset for Demonstrating Common Distributions,” Journal of Statistics Education v.7, n.3 (1999)</div>
+</span></dd><dt class="dt-thefootnotes"><a id="note2" href="#text2"><span class="c005">2</span></a></dt><dd class="dd-thefootnotes"><span class="c005"><div class="footnotetext"><span class="c003">http://mathworld.wolfram.com/LogNormalDistribution.html</span> 사이트에서 주석(인용없이)으로 이 가능성에 대해서 제보를 받았다.
+나중에 로그 변환과 원인을 제안하는 논문을 발견했다: Penman and Johnson, “The Changing Shape of the Body Mass Index Distribution Curve in the Population,” Preventing Chronic Disease, 2006 July; 3(3): A74. Online at <span class="c003">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1636707</span>.</div>
+</span></dd><dt class="dt-thefootnotes"><a id="note3" href="#text3"><span class="c005">3</span></a></dt><dd class="dd-thefootnotes"><span class="c005"><div class="footnotetext">질병통제 예방센터(Centers for Disease Control and Prevention, CDC). 행동 위험 요인 감시 시스템 조사 자료(Behavioral Risk Factor Surveillance System Survey Data). Atlanta, Georgia: 미국 보건 복지부 (U.S. Department of Health and Human Services), 질병통제 예방센터 (Centers for Disease Control and Prevention), 2008.</div>
+</span></dd></dl>
+</td>
+
+<td width=130 valign="top">
+
+<p>
+<h4>Are you using one of our books in a class?</h4>  We'd like to know
+about it.  Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onClick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+
+<p>
+<br>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+44933072X&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+449307116&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+449314635&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=0
+521725968&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+</td>
+</tr>
+</table>
+
+</body>
+<hr>
+<a href="thinkstats2005.html"><img src="back.png" ALT="Previous"></a>
+<a href="index.html"><img src="up.png" ALT="Up"></a>
+<a href="thinkstats2007.html"><img src="next.png" ALT="Next"></a>
+</body>
+</html>

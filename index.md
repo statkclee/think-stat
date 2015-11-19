@@ -24,7 +24,8 @@ title: 통계적 사고 워크샵
 > 통계적 사고 (ThinkStats2) : 프로그래머를 위한 확률과 통계  
 >- (번역): [https://github.com/statkclee/ThinkStats2](https://github.com/statkclee/ThinkStats2)  
 >- (원서): [http://greenteapress.com/thinkstats2/](http://greenteapress.com/thinkstats2/)  
->- [번역 버젼('15년 11월 17일)](./books/book-xwMOOC-20151117.pdf)  
+>- [번역 버젼('15년 11월 17일), PDF 파일](./books/book-xwMOOC-20151117.pdf)  
+>- [번역 버젼('15년 11월 17일), HTML 파일](./html/index.html)  
 >&laquo;&laquo;&laquo;&laquo; 연습문제 초벌 번역  
 >&laquo;&laquo;&laquo;&laquo; 한국어판 서문 추가  
 

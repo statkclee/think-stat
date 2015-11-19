@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<title>통계적 사고
+</title>
+<link rel="stylesheet" type="text/css" href="thinkstats2.css">
+</head>
+<body>
+<!--HEVEA command line is: /usr/bin/hevea -O -e latexonly htmlonly thinkstats2 -->
+<!--HACHA command line is: /usr/bin/hacha thinkstats2.html -->
+<table cellpadding=10>
+
+<tr>
+
+<td valign="top" width=100 bgcolor="#DC143C">
+</td>
+
+<td valign="top" width=600>
+
+<p>This HTML version of is provided for convenience, but it
+is not the best format for the book.  In particular, some of the
+symbols are not rendered correctly.
+
+<p>You might prefer to read
+the <a href="http://thinkstats2.com/thinkstats2.pdf">PDF version</a>, or
+you can buy a hardcopy of the first edition at
+<a href="http://www.amazon.com/gp/product/1449307116/ref=as_li_qf_sp_asin_tl?ie=UTF8&tag=greenteapre01-20&linkCode=as2&camp=217145&creative=399373&creativeASIN=1449307116">Amazon</a>.
+<p>
+<span class="c007">통계적 사고: 파이썬을 이용한 탐색적 자료 분석</span></p><p><span style="font-size:large">Allen B. Downey</span></p><p>Version 2.0.25</p><p><br>
+<br>
+</p><p>Copyright 2014 Allen B. Downey</p><p><br>
+<br>
+</p><p>Permission is granted to copy, distribute, and/or modify this document
+under the terms of the Creative Commons 
+Attribution-NonCommercial-ShareAlike 4.0 International
+Unported License, which is available at
+<span class="c003">http://creativecommons.org/licenses/by-nc-sa/4.0/</span>.</p>
+<ul>
+<li><a href="thinkstats2001.html">서문</a>
+<ul>
+<li><a href="thinkstats2001.html#sec2">한국어판 서문</a>
+</li><li><a href="thinkstats2001.html#sec3">서문</a>
+</li><li><a href="thinkstats2001.html#sec4">저자가 이책을 저작한 방식</a>
+</li><li><a href="thinkstats2001.html#sec5">코드 사용</a>
+</li><li><a href="thinkstats2001.html#sec6">기여자 목록</a>
+</li></ul>
+</li><li><a href="thinkstats2002.html"><span class="c005">탐색적 자료 분석</span></a>
+<ul>
+<li><a href="thinkstats2002.html#sec8"><span class="c005">통계적 접근방법</span></a>
+</li><li><a href="thinkstats2002.html#sec9"><span class="c005">가족 성장 국가 조사 (National Survey of Family Growth)</span></a>
+</li><li><a href="thinkstats2002.html#sec10"><span class="c005">데이터 가져오기</span></a>
+</li><li><a href="thinkstats2002.html#sec11"><span class="c005">데이터프레임(DataFrames)</span></a>
+</li><li><a href="thinkstats2002.html#sec12"><span class="c005">변수 (Variables)</span></a>
+</li><li><a href="thinkstats2002.html#sec13"><span class="c005">변환 (Transformation)</span></a>
+</li><li><a href="thinkstats2002.html#sec14"><span class="c005">타당성 검사(Validation)</span></a>
+</li><li><a href="thinkstats2002.html#sec15"><span class="c005">해석 (Interpretation)</span></a>
+</li><li><a href="thinkstats2002.html#sec16"><span class="c005">연습 문제 (Exercises)</span></a>
+</li><li><a href="thinkstats2002.html#sec17"><span class="c005">용어사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2003.html"><span class="c005">분포 (Distribution)</span></a>
+<ul>
+<li><a href="thinkstats2003.html#sec19"><span class="c005">히스토그램</span></a>
+</li><li><a href="thinkstats2003.html#sec20"><span class="c005">히스토그램 표현하기</span></a>
+</li><li><a href="thinkstats2003.html#sec21"><span class="c005">히스토그램 그리기 (Plotting histograms)</span></a>
+</li><li><a href="thinkstats2003.html#sec22"><span class="c005">NSFG 변수</span></a>
+</li><li><a href="thinkstats2003.html#sec23"><span class="c005">특이점 (Outliers)</span></a>
+</li><li><a href="thinkstats2003.html#sec24"><span class="c005">첫번째 아이 (First babies)</span></a>
+</li><li><a href="thinkstats2003.html#sec25"><span class="c005">분포 요약하기</span></a>
+</li><li><a href="thinkstats2003.html#sec26"><span class="c005">분산 (Variance)</span></a>
+</li><li><a href="thinkstats2003.html#sec27"><span class="c005">효과 크기 (Effect size)</span></a>
+</li><li><a href="thinkstats2003.html#sec28"><span class="c005">결과 보고하기</span></a>
+</li><li><a href="thinkstats2003.html#sec29"><span class="c005">연습 문제</span></a>
+</li><li><a href="thinkstats2003.html#sec30"><span class="c005">용어사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2004.html"><span class="c005">확률 질량 함수</span></a>
+<ul>
+<li><a href="thinkstats2004.html#sec32"><span class="c005">Pmf</span></a>
+</li><li><a href="thinkstats2004.html#sec33"><span class="c005">PMF 플롯으로 그리기</span></a>
+</li><li><a href="thinkstats2004.html#sec34"><span class="c005">다른 시각화 방법</span></a>
+</li><li><a href="thinkstats2004.html#sec35"><span class="c005">학급 크기 패러독스 (class size paradox)</span></a>
+</li><li><a href="thinkstats2004.html#sec36"><span class="c005">데이터프레임 인덱싱 (DataFrame indexing)</span></a>
+</li><li><a href="thinkstats2004.html#sec37"><span class="c005">연습 문제</span></a>
+</li><li><a href="thinkstats2004.html#sec38"><span class="c005">용어사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2005.html"><span class="c005">누적분포함수</span></a>
+<ul>
+<li><a href="thinkstats2005.html#sec40"><span class="c005">PMF의 한계점</span></a>
+</li><li><a href="thinkstats2005.html#sec41"><span class="c005">백분위수 (Percentiles)</span></a>
+</li><li><a href="thinkstats2005.html#sec42"><span class="c005">CDF</span></a>
+</li><li><a href="thinkstats2005.html#sec43"><span class="c005">CDF 표현하기 (Representing CDFs)</span></a>
+</li><li><a href="thinkstats2005.html#sec44"><span class="c005">CDF 비교하기</span></a>
+</li><li><a href="thinkstats2005.html#sec45"><span class="c005">백분위수 기반 통계량 (Percentile-based statistics)</span></a>
+</li><li><a href="thinkstats2005.html#sec46"><span class="c005">난수 (Random numbers)</span></a>
+</li><li><a href="thinkstats2005.html#sec47"><span class="c005">백분위 순위 비교하기</span></a>
+</li><li><a href="thinkstats2005.html#sec48"><span class="c005">Exercises</span></a>
+</li><li><a href="thinkstats2005.html#sec49"><span class="c005">용어사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2006.html"><span class="c005">분포 모형화 (Modeling distributions)</span></a>
+<ul>
+<li><a href="thinkstats2006.html#sec51"><span class="c005">지수분포 (exponential distribution)</span></a>
+</li><li><a href="thinkstats2006.html#sec52"><span class="c005">정규 분포 (normal distribution)</span></a>
+</li><li><a href="thinkstats2006.html#sec53"><span class="c005">정규확률그림 (Normal probability plot)</span></a>
+</li><li><a href="thinkstats2006.html#sec54"><span class="c005">로그 정규분포 (lognormal distribution)</span></a>
+</li><li><a href="thinkstats2006.html#sec55"><span class="c005">파레토 분포 (Pareto distribution)</span></a>
+</li><li><a href="thinkstats2006.html#sec56"><span class="c005">난수 생성하기 (Generating random numbers)</span></a>
+</li><li><a href="thinkstats2006.html#sec57"><span class="c005">왜 모형인가?</span></a>
+</li><li><a href="thinkstats2006.html#sec58"><span class="c005">연습문제</span></a>
+</li><li><a href="thinkstats2006.html#sec59"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2007.html"><span class="c005">확률밀도함수</span></a>
+<ul>
+<li><a href="thinkstats2007.html#sec61"><span class="c005">PDF</span></a>
+</li><li><a href="thinkstats2007.html#sec62"><span class="c005">핵밀도추정 (Kernel density estimation)</span></a>
+</li><li><a href="thinkstats2007.html#sec63"><span class="c005">분포 프레임워크 (distribution framework)</span></a>
+</li><li><a href="thinkstats2007.html#sec64"><span class="c005">Hist 구현</span></a>
+</li><li><a href="thinkstats2007.html#sec65"><span class="c005">Pmf 구현</span></a>
+</li><li><a href="thinkstats2007.html#sec66"><span class="c005">Cdf 구현</span></a>
+</li><li><a href="thinkstats2007.html#sec67"><span class="c005">적률 (Moments)</span></a>
+</li><li><a href="thinkstats2007.html#sec68"><span class="c005">왜도 (Skewness)</span></a>
+</li><li><a href="thinkstats2007.html#sec69"><span class="c005">연습문제</span></a>
+</li><li><a href="thinkstats2007.html#sec70"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2008.html"><span class="c005">변수간 관계</span></a>
+<ul>
+<li><a href="thinkstats2008.html#sec72"><span class="c005">산점도 (Scatter plots)</span></a>
+</li><li><a href="thinkstats2008.html#sec73"><span class="c005">관계를 특징짓기</span></a>
+</li><li><a href="thinkstats2008.html#sec74"><span class="c005">상관 (Correlation)</span></a>
+</li><li><a href="thinkstats2008.html#sec75"><span class="c005">공분산 (Covariance)</span></a>
+</li><li><a href="thinkstats2008.html#sec76"><span class="c005">피어슨 상관 (Pearson’s correlation)</span></a>
+</li><li><a href="thinkstats2008.html#sec77"><span class="c005">비선형 관계 (Nonlinear relationships)</span></a>
+</li><li><a href="thinkstats2008.html#sec78"><span class="c005">스피어만 순위 상관 (Spearman’s rank correlation)</span></a>
+</li><li><a href="thinkstats2008.html#sec79"><span class="c005">상관과 인과 (Correlation and causation)</span></a>
+</li><li><a href="thinkstats2008.html#sec80"><span class="c005">연습 문제</span></a>
+</li><li><a href="thinkstats2008.html#sec81"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2009.html"><span class="c005">추정 (Estimation)</span></a>
+<ul>
+<li><a href="thinkstats2009.html#sec83"><span class="c005">추정 게임</span></a>
+</li><li><a href="thinkstats2009.html#sec84"><span class="c005">분산 추정</span></a>
+</li><li><a href="thinkstats2009.html#sec85"><span class="c005">표집 분포 (Sampling distributions)</span></a>
+</li><li><a href="thinkstats2009.html#sec86"><span class="c005">표집 편의 (Sampling bias)</span></a>
+</li><li><a href="thinkstats2009.html#sec87"><span class="c005">지수분포 (Exponential distributions)</span></a>
+</li><li><a href="thinkstats2009.html#sec88"><span class="c005">연습문제</span></a>
+</li><li><a href="thinkstats2009.html#sec89"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2010.html"><span class="c005">가설 검정 (Hypothesis testing)</span></a>
+<ul>
+<li><a href="thinkstats2010.html#sec91"><span class="c005">전통적 가설 검정 (Classical hypothesis testing)</span></a>
+</li><li><a href="thinkstats2010.html#sec92"><span class="c005">HypothesisTest</span></a>
+</li><li><a href="thinkstats2010.html#sec93"><span class="c005">평균 차이 검정 (Testing a difference in means)</span></a>
+</li><li><a href="thinkstats2010.html#sec94"><span class="c005">다른 검정 통계량 (ther test statistics)</span></a>
+</li><li><a href="thinkstats2010.html#sec95"><span class="c005">상관 검정 (Testing a correlation)</span></a>
+</li><li><a href="thinkstats2010.html#sec96"><span class="c005">비율 검정 (Testing proportions)</span></a>
+</li><li><a href="thinkstats2010.html#sec97"><span class="c005">카이제곱 검정 (Chi-squared tests)</span></a>
+</li><li><a href="thinkstats2010.html#sec98"><span class="c005">다시 첫째 아이</span></a>
+</li><li><a href="thinkstats2010.html#sec99"><span class="c005">오류 (Errors)</span></a>
+</li><li><a href="thinkstats2010.html#sec100"><span class="c005">검정력 (Power)</span></a>
+</li><li><a href="thinkstats2010.html#sec101"><span class="c005">반복 (Replication)</span></a>
+</li><li><a href="thinkstats2010.html#sec102"><span class="c005">연습 문제</span></a>
+</li><li><a href="thinkstats2010.html#sec103"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2011.html"><span class="c005">선형최소제곱 (Linear least squares)</span></a>
+<ul>
+<li><a href="thinkstats2011.html#sec105"><span class="c005">최소제곱 적합 (Least squares fit)</span></a>
+</li><li><a href="thinkstats2011.html#sec106"><span class="c005">구현 (Implementation)</span></a>
+</li><li><a href="thinkstats2011.html#sec107"><span class="c005">잔차 (Residuals)</span></a>
+</li><li><a href="thinkstats2011.html#sec108"><span class="c005">추정 (Estimation)</span></a>
+</li><li><a href="thinkstats2011.html#sec109"><span class="c005">적합도 (Goodness of fit)</span></a>
+</li><li><a href="thinkstats2011.html#sec110"><span class="c005">선형 모형 검정 (Testing a linear model)</span></a>
+</li><li><a href="thinkstats2011.html#sec111"><span class="c005">가중 재표본추출 (Weighted resampling)</span></a>
+</li><li><a href="thinkstats2011.html#sec112"><span class="c005">연습문제</span></a>
+</li><li><a href="thinkstats2011.html#sec113"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2012.html"><span class="c005">회귀 (Regression)</span></a>
+<ul>
+<li><a href="thinkstats2012.html#sec115"><span class="c005">StatsModels</span></a>
+</li><li><a href="thinkstats2012.html#sec116"><span class="c005">다중회귀 (Multiple regression)</span></a>
+</li><li><a href="thinkstats2012.html#sec117"><span class="c005">비선형 관계 (Nonlinear relationships)</span></a>
+</li><li><a href="thinkstats2012.html#sec118"><span class="c005">Data mining</span></a>
+</li><li><a href="thinkstats2012.html#sec119"><span class="c005">예측 (Prediction)</span></a>
+</li><li><a href="thinkstats2012.html#sec120"><span class="c005">로지스틱 회귀 (Logistic regression)</span></a>
+</li><li><a href="thinkstats2012.html#sec121"><span class="c005">모수 추정 (Estimating parameters)</span></a>
+</li><li><a href="thinkstats2012.html#sec122"><span class="c005">구현 (Implementation)</span></a>
+</li><li><a href="thinkstats2012.html#sec123"><span class="c005">정밀도 (Accuracy)</span></a>
+</li><li><a href="thinkstats2012.html#sec124"><span class="c005">연습 문제</span></a>
+</li><li><a href="thinkstats2012.html#sec125"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2013.html"><span class="c005">시계열 분석</span></a>
+<ul>
+<li><a href="thinkstats2013.html#sec127"><span class="c005">가져오기(Importing)와 정제하기(cleaning)</span></a>
+</li><li><a href="thinkstats2013.html#sec128"><span class="c005">플롯 그리기 (Plotting)</span></a>
+</li><li><a href="thinkstats2013.html#sec129"><span class="c005">선형 회귀 (Linear regression)</span></a>
+</li><li><a href="thinkstats2013.html#sec130"><span class="c005">이동 평균 (Moving averages)</span></a>
+</li><li><a href="thinkstats2013.html#sec131"><span class="c005">결측값 (Missing values)</span></a>
+</li><li><a href="thinkstats2013.html#sec132"><span class="c005">계열 상관 (Serial correlation)</span></a>
+</li><li><a href="thinkstats2013.html#sec133"><span class="c005">자기상관 (Autocorrelation)</span></a>
+</li><li><a href="thinkstats2013.html#sec134"><span class="c005">예측 (Prediction)</span></a>
+</li><li><a href="thinkstats2013.html#sec135"><span class="c005">추가 읽기</span></a>
+</li><li><a href="thinkstats2013.html#sec136"><span class="c005">연습문제</span></a>
+</li><li><a href="thinkstats2013.html#sec137"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2014.html"><span class="c005">생존분석</span></a>
+<ul>
+<li><a href="thinkstats2014.html#sec139"><span class="c005">생존곡선 (Survival curves)</span></a>
+</li><li><a href="thinkstats2014.html#sec140"><span class="c005">위험 함수 (Hazard function)</span></a>
+</li><li><a href="thinkstats2014.html#sec141"><span class="c005">생존곡선 추정하기</span></a>
+</li><li><a href="thinkstats2014.html#sec142"><span class="c005">캐플란-마이어 추정 (Kaplan-Meier estimation)</span></a>
+</li><li><a href="thinkstats2014.html#sec143"><span class="c005">결혼 곡선 (marriage curve)</span></a>
+</li><li><a href="thinkstats2014.html#sec144"><span class="c005">생존함수 추정하기</span></a>
+</li><li><a href="thinkstats2014.html#sec145"><span class="c005">신뢰구간 (Confidence intervals)</span></a>
+</li><li><a href="thinkstats2014.html#sec146"><span class="c005">코호트 효과 (Cohort effects)</span></a>
+</li><li><a href="thinkstats2014.html#sec147"><span class="c005">외삽법 (Extrapolation)</span></a>
+</li><li><a href="thinkstats2014.html#sec148"><span class="c005">기대 잔존 수명</span></a>
+</li><li><a href="thinkstats2014.html#sec149"><span class="c005">연습문제</span></a>
+</li><li><a href="thinkstats2014.html#sec150"><span class="c005">용어 사전</span></a>
+</li></ul>
+</li><li><a href="thinkstats2015.html"><span class="c005">해석적 방법 (Analytic methods)</span></a>
+<ul>
+<li><a href="thinkstats2015.html#sec152"><span class="c005">정규분포</span></a>
+</li><li><a href="thinkstats2015.html#sec153"><span class="c005">표집분포</span></a>
+</li><li><a href="thinkstats2015.html#sec154"><span class="c005">정규분포 표현하기</span></a>
+</li><li><a href="thinkstats2015.html#sec155"><span class="c005">중심극한정리 (Central limit theorem)</span></a>
+</li><li><a href="thinkstats2015.html#sec156"><span class="c005">CLT 검정</span></a>
+</li><li><a href="thinkstats2015.html#sec157"><span class="c005">CLT 적용하기</span></a>
+</li><li><a href="thinkstats2015.html#sec158"><span class="c005">상관검정 (Correlation test)</span></a>
+</li><li><a href="thinkstats2015.html#sec159"><span class="c005">카이제곱 검정 (Chi-squared test)</span></a>
+</li><li><a href="thinkstats2015.html#sec160"><span class="c005">토의 (Discussion)</span></a>
+</li><li><a href="thinkstats2015.html#sec161"><span class="c005">연습 문제</span></a>
+</li></ul>
+</li><li><a href="thinkstats2016.html"><span class="c005">Index</span></a>
+</li></ul>
+</td>
+
+<td width=130 valign="top">
+
+<p>
+<h4>Are you using one of our books in a class?</h4>  We'd like to know
+about it.  Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onClick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+
+<p>
+<br>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+44933072X&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+449307116&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+449314635&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=0
+521725968&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+</td>
+</tr>
+</table>
+
+</body>
+<!--FOOTER-->
+<hr style="height:2"><blockquote class="quote"><em>This document was translated from L<sup>A</sup>T<sub>E</sub>X by
+</em><a href="http://hevea.inria.fr/index.html"><em>H<span class="c006"><sup>E</sup></span>V<span class="c006"><sup>E</sup></span>A</em></a><em>.</em></blockquote></body>
+</html>

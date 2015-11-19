@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="thinkstats2.css">
+<title>추정 (Estimation)</title>
+</head>
+<body>
+<a href="thinkstats2008.html"><img src="back.png" ALT="Previous"></a>
+<a href="index.html"><img src="up.png" ALT="Up"></a>
+<a href="thinkstats2010.html"><img src="next.png" ALT="Next"></a>
+<hr>
+<table cellpadding=10>
+
+<tr>
+
+<td valign="top" width=100 bgcolor="#DC143C">
+</td>
+
+<td valign="top" width=600>
+
+<p>This HTML version of is provided for convenience, but it
+is not the best format for the book.  In particular, some of the
+symbols are not rendered correctly.
+
+<p>You might prefer to read
+the <a href="http://thinkstats2.com/thinkstats2.pdf">PDF version</a>, or
+you can buy a hardcopy of the first edition at
+<a href="http://www.amazon.com/gp/product/1449307116/ref=as_li_qf_sp_asin_tl?ie=UTF8&tag=greenteapre01-20&linkCode=as2&camp=217145&creative=399373&creativeASIN=1449307116">Amazon</a>.
+<h1 class="chapter" id="sec82"><span class="c005">Chapter 8  추정 (Estimation)</span></h1>
+<p><span class="c005">
+</span><a id="estimation"></a><span class="c005">
+</span><a id="hevea_default716"></a></p><p><span class="c005">이번 장에서 사용되는 코드는 <span class="c003">estimation.py</span>에 있다.
+코드를 다운로드하고 작업하는 것에 대한 정보는  </span><a href="thinkstats2001.html#code"><span class="c005">2</span></a><span class="c005">을 참조한다.</span></p><span class="c005">
+</span><h2 class="section" id="sec83"><span class="c005">8.1  추정 게임</span></h2>
+<p><span class="c005">게임 한판합시다. 저자는 생각하는 분포가 있고, 여러분은 그 분포가 무엇인지 맞춰야 한다.
+힌트를 두개 준다: 정규분포이고, 정규분포에서 나온 표본이 다음과 같다.</span></p><p><a id="hevea_default717"></a><span class="c005">
+</span><a id="hevea_default718"></a><span class="c005">
+</span><a id="hevea_default719"></a><span class="c005">
+</span><a id="hevea_default720"></a></p><p><span class="c004">[-0.441, 1.774, -0.101, -1.138, 2.975, -2.138]</span></p><p><span class="c005">상기 분포의 평균 모수, µ가 무얼까요?
+</span><a id="hevea_default721"></a><span class="c005">
+</span><a id="hevea_default722"></a></p><p><span class="c005">한가지 선택은 µ 추정값(estimate)으로 표본 평균 <span class="c018">x</span>을 사용한다.
+상기 예제애서 <span class="c018">x</span>가 0.155 으로, µ = 0.155 추정하는 것은 합리적이다.
+이러한 과정을 <span class="c012">추정 (estimation)</span>이라고 부른다. 사용한 통계량 (표본 평균)은 
+<span class="c012">추정량(estimator)</span>이라고 부른다.
+</span><a id="hevea_default723"></a></p><p><span class="c005">µ를 추정하는데 표본 평균을 사용하는 것이 너무 명확해서 합리적인 다른 대안을 상상하기는 어렵다.
+하지만, 이상값을 도입해서 게임을 바꾸는 것을 가정하자.
+</span><a id="hevea_default724"></a><span class="c005">
+</span><a id="hevea_default725"></a><span class="c005">
+</span><a id="hevea_default726"></a><span class="c005">
+</span><a id="hevea_default727"></a></p><p><span class="c005"><em>저자가 생각하는 분포가 있다.</em> 정규분포이고, 잘못된 자리에 종종 소수점을 넣는
+신뢰가 가지 않는 조사원이 수집한 표본이 다음에 있다.
+</span><a id="hevea_default728"></a></p><p><span class="c004">[-0.441, 1.774, -0.101, -1.138, 2.975, -213.8]</span></p><p><span class="c005">이제 µ 추정값은 무엇이 될까요? 만약 표본 평균을 사용한다면, 추정치는 -35.12가 된다.
+이것이 최선의 선택일까요? 대안이 무엇이 될까요?
+</span><a id="hevea_default729"></a></p><p><span class="c005">한가지 선택지는 이상점을 식별하고 버리고 나서, 나머지를 가지고 표본 평균을 계산한다.
+다른 선택지는 중위수를 추정량으로 사용한다.
+</span><a id="hevea_default730"></a></p><p><span class="c005">어느 추정량이 가장 좋은가는 상황에 따라 달라지고(예를 들어, 이상값이 있느냐),
+목적이 무엇이냐에 달려있다. 오류를 최소화하려고 하는지 혹은 정답을 얻는 가능성을 극대화하려고 하는지.</span></p><p><a id="hevea_default731"></a><span class="c005">
+</span><a id="hevea_default732"></a><span class="c005">
+</span><a id="hevea_default733"></a></p><p><span class="c005">만약 이상값이 없다면, 표본 평균은 <span class="c012">누적평균제곱오차 (mean squared
+error), MSE</span>를 최소화한다. 즉, 만약 게임을 여러번하고, 매번 오차 
+<span class="c018">x</span> − µ를 계산하면, 표본 평균은 다음을 최소화 한다.</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">MSE</span> = </span></td><td class="dcell"><table class="display"><tr><td class="dcell c013"><span class="c005">1</span></td></tr>
+<tr><td class="hbar"></td></tr>
+<tr><td class="dcell c013"><span class="c011">m</span></td></tr>
+</table></td><td class="dcell"><span class="c005"> <span class="c008">∑</span>(<span class="c018">x</span> − µ)</span><sup><span class="c005">2</span></sup><span class="c005"> </span></td></tr>
+</table><p><span class="c005">
+<span class="c009">m</span>은 추정 게임을 수행한 횟수다. <span class="c018">x</span>를 계산하는데 사용된 표본 크기인 <span class="c009">n</span>와 혼동하면 안된다.</span></p><p><span class="c005">다음에 함수가 있는데 추정 게임을 모사하여 MSE 제곱근인, 
+누적평균제곱오차의 제곱근(root mean squared error, RMSE)을 계산한다.</span></p><p><a id="hevea_default734"></a><span class="c005">
+</span><a id="hevea_default735"></a><span class="c005">
+</span><a id="hevea_default736"></a></p><pre class="verbatim"><span class="c005">
+def Estimate1(n=7, m=1000):
+    mu = 0
+    sigma = 1
+
+    means = []
+    medians = []
+    for _ in range(m):
+        xs = [random.gauss(mu, sigma) for i in range(n)]
+        xbar = np.mean(xs)
+        median = np.median(xs)
+        means.append(xbar)
+        medians.append(median)
+
+    print('rmse xbar', RMSE(means, mu))
+    print('rmse median', RMSE(medians, mu))
+</span></pre><p><span class="c005">다시 한번, <span class="c003">n</span>은 표본 크기다. <span class="c003">m</span>은 게임을 실행한 횟수다.
+<span class="c003">means</span>은 <span class="c018">x</span>에 기반한 추정값 리스트다. 
+<span class="c003">medians</span>은 중위수 리스트다.
+</span><a id="hevea_default737"></a></p><p><span class="c005">다음에 RMSE를 계산하는 함수가 있다.</span></p><pre class="verbatim"><span class="c005">
+def RMSE(estimates, actual):
+    e2 = [(estimate-actual)**2 for estimate in estimates]
+    mse = np.mean(e2)
+    return math.sqrt(mse)
+</span></pre><p><span class="c005"><span class="c003">estimates</span>는 추정값 리스트다; <span class="c003">actual</span>은 추정되는 실제 값이다.
+실무에서는 물론 <span class="c003">actual</span>을 모른다; 만약 알고 있다면, 추정할 필요가 없을 것이다. 실험 목적은 두 추정량 성능을 비교하는 것이다.
+</span><a id="hevea_default738"></a></p><p><span class="c005">코드를 실행하면, 표본 평균 RMSE가 0.41로 의미하는 바는 만약
+<span class="c009">n</span>=7 표본에 기반하여 <span class="c018">x</span>를 사용해서 분포 평균을 추정한다면,
+평균 0.41만큼 떨어졌다고 예측된다. 중위수를 사용하여 평균을 추정하면 RMSE 0.53을 산출하는데 적어도 이 사례에서 <span class="c018">x</span>가 더 낮은 RMSE를 뽑아낸다고 확인해준다.</span></p><p><span class="c005">MSE 최소화는 좋은 특성이다. 하지만, 항상 최선의 전략은 되지 못한다.
+예를 들어, 조선소에서 바람 속도 분포를 추정한다고 가정하다.
+만약 추정값이 너무 높으면, 시설물을 과도하게 짓게되어서 비용이 상승한다.
+하지만, 너무 낮게 추정한다면, 구조물이 붕괴할 수도 있다. 오류 함수로 비용이 좌우 대칭이 아니기 때문에, MSE 최소화가 항상 좋은 전략은 아니다.
+</span><a id="hevea_default739"></a><span class="c005">
+</span><a id="hevea_default740"></a><span class="c005">
+</span><a id="hevea_default741"></a></p><p><span class="c005">다른 예제로, 6면 주사위 세개를 던져서 합계를 예측하는 것을 가정하자.
+정확하게 합계를 맞춘다면, 상을 받게 된다; 맞추지 못하면 아무 것도 없다.
+이경우, MSE를 최소화하는 값은 10.5가 된다. 하지만, 좋지 못한 추정값이 된다.
+왜냐하면 주사위 세개를 던져 합은 결코 10.5가 되지 못한다. 이 게임에서,
+맞출 가장 높은 확률을 가진 추정량이 필요하다. 그것은 <span class="c012">최대우도추정량 (maximum likelihood estimator, MLE</span>이다. 만약 10 혹은 11일 선택하면,
+우승 가능성이 8분의 1이 되고 할 수 있는 최선이 된다.</span></p><p><a id="hevea_default742"></a><span class="c005">
+</span><a id="hevea_default743"></a><span class="c005">
+</span><a id="hevea_default744"></a></p><span class="c005">
+</span><h2 class="section" id="sec84"><span class="c005">8.2  분산 추정</span></h2>
+<p><span class="c005">
+</span><a id="hevea_default745"></a><span class="c005">
+</span><a id="hevea_default746"></a><span class="c005">
+</span><a id="hevea_default747"></a><span class="c005">
+</span><a id="hevea_default748"></a><span class="c005">
+</span><a id="hevea_default749"></a></p><p><span class="c005"><em>저자가 마음에 두고 있는 분포가 있다.</em> 정규분포고, 다음에 (친숙한) 표본이 있다.</span></p><p><span class="c004">[-0.441, 1.774, -0.101, -1.138, 2.975, -2.138]</span></p><p><span class="c005">상기 분포의 분산 σ</span><sup><span class="c005">2</span></sup><span class="c005">가 무엇일까요? 다시 한번, 명백한 선택은
+표본 분산, <span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005">를 추정량으로 사용하는 것이다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c011">S</span><sup><span class="c005">2</span></sup><span class="c005"> = </span></td><td class="dcell"><table class="display"><tr><td class="dcell c013"><span class="c005">1</span></td></tr>
+<tr><td class="hbar"></td></tr>
+<tr><td class="dcell c013"><span class="c011">n</span></td></tr>
+</table></td><td class="dcell"><span class="c005"> <span class="c008">∑</span>(<span class="c009">x</span></span><sub><span class="c011">i</span></sub><span class="c005"> − <span class="c018">x</span>)</span><sup><span class="c005">2</span></sup><span class="c005"> </span></td></tr>
+</table><p><span class="c005"> 
+
+표본크기가 큰 경우, <span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005">가 적절한 추정량이 되지만, 작은 표본에 대해서 너무 작아지는 경향이 있다. 이와 같은 불행한 성질로 인해서, <span class="c012">편의 (biased)</span> 추정량이라고 부른다. 
+만약 추정을 많이 반복한 뒤에 기대 총 (혹은 평균) 오류가 0이라면, 추정량은 
+<span class="c012">불편의(unbiased)</span>다. </span></p><p><a id="hevea_default750"></a><span class="c005">
+</span><a id="hevea_default751"></a><span class="c005">
+</span><a id="hevea_default752"></a><span class="c005">
+</span><a id="hevea_default753"></a><span class="c005">
+</span><a id="hevea_default754"></a></p><p><span class="c005">다행스럽게도, σ</span><sup><span class="c005">2</span></sup><span class="c005">에 대한 불편 추정량인 또 다른 간단한 통계량이 있다.</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c011">S</span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005"> = </span></td><td class="dcell"><table class="display"><tr><td class="dcell c013"><span class="c005">1</span></td></tr>
+<tr><td class="hbar"></td></tr>
+<tr><td class="dcell c013"><span class="c005"><span class="c009">n</span>−1</span></td></tr>
+</table></td><td class="dcell"><span class="c005"> <span class="c008">∑</span>(<span class="c009">x</span></span><sub><span class="c011">i</span></sub><span class="c005"> − <span class="c018">x</span>)</span><sup><span class="c005">2</span></sup><span class="c005"> </span></td></tr>
+</table><p><span class="c011"> 
+
+S</span><sup><span class="c005">2</span></sup><span class="c005">가 왜 편의가 있고, <span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005">가 왜 불편 추정량인지에 대한 설명은 웹사이트 <span class="c003">http://wikipedia.org/wiki/Bias_of_an_estimator</span> 참조바랍니다.</span></p><p><span class="c005">이 추정량에 대한 가장 큰 문제점은 명칭과 기호가 일관되지 못하게 사용된다는데 있다. “표본 분산”이 <span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005"> 혹은 <span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005">, 
+그리고 기호 <span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005">이 한쪽 혹은 양쪽에 사용될 수 있다.</span></p><p><span class="c005">추정 게임을 모의시험하고 <span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005"> 와 <span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005">의 성능을 시험하는 함수가 다음에 있다.</span></p><pre class="verbatim"><span class="c005">
+def Estimate2(n=7, m=1000):
+    mu = 0
+    sigma = 1
+
+    estimates1 = []
+    estimates2 = []
+    for _ in range(m):
+        xs = [random.gauss(mu, sigma) for i in range(n)]
+        biased = np.var(xs)
+        unbiased = np.var(xs, ddof=1)
+        estimates1.append(biased)
+        estimates2.append(unbiased)
+
+    print('mean error biased', MeanError(estimates1, sigma**2))
+    print('mean error unbiased', MeanError(estimates2, sigma**2))
+</span></pre><p><span class="c005">한번 더, <span class="c003">n</span>가 표본 크기이고, <span class="c003">m</span>은 게임을 수행한 횟수다.
+<span class="c003">np.var</span>는 기본 설정으로 <span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005">을 계산하고, 만약 인자로 <span class="c003">ddof=1</span>을 넣으면 <span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005">을 계산한다. <span class="c003">ddof</span>는 “델타 자유도 (delta degrees of freedom)”의 축약어다. 웹사이트에서 자세한 사항 참조한다. <span class="c003">http://en.wikipedia.org/wiki/Degrees_of_freedom_(statistics)</span>
+</span><a id="hevea_default755"></a></p><p><span class="c005"><span class="c003">MeanError</span>는 추정값과 실제값 사이 평균 차이를 계산한다.</span></p><pre class="verbatim"><span class="c005">
+def MeanError(estimates, actual):
+    errors = [estimate-actual for estimate in estimates]
+    return np.mean(errors)
+</span></pre><p><span class="c005">코드를 실행하면, <span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005">에 대한 평균 오차는 -0.13이다.
+기대한 것처럼, 편의 추정량이 너무 적은 경향이 있다. 
+<span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005">에 대해서, 평균 오차는 0.014로 10배 더 적다.
+<span class="c003">m</span>이 커감에 따라, 평균 오차 <span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005">가 0에 수렴해간다.</span></p><p><a id="hevea_default756"></a></p><p><span class="c005">MSE나 편의(bias) 같은 성질은 많은 추정 게임에 기반한 장기 기대가 된다.
+이장에서와 같은 모의시험을 수행해서, 추정량을 비교하고, 바람직한 성질을 갖는지 점검할 수 있다.</span></p><p><a id="hevea_default757"></a><span class="c005">
+</span><a id="hevea_default758"></a></p><p><span class="c005">하지만, 추정량을 실제 데이터에 적용했을 때,
+단지 하나 추정값만 얻는다. 추정값이 편의가 없다고 말하는 것이 의미가 없을 수 있다; 불편(unbiased)하다는 것은 추정량(estimator)의 성질이지 추정값(estimate)의 성질은 아니다.</span></p><p><span class="c005">적절한 성질을 갖는 추정량을 선택하고 추정값을 생성하고 나면, 다음 단계는 추정값의 불확실을 특성화해야 한다. 다음 절의 주제다.</span></p><span class="c005">
+</span><h2 class="section" id="sec85"><span class="c005">8.3  표집 분포 (Sampling distributions)</span></h2>
+<p><span class="c005">
+</span><a id="gorilla"></a></p><p><span class="c005">야생동물 보호구역에서 고릴라를 연구하고 있는 과학자를 가정해보자.
+보호구역에 서식하고 있는 성인 암컷 고릴라 평균 체중을 알고자 한다.
+체중을 측정하려고 한다면, 고릴라를 진정시켜야 하는데, 위험하고, 비용이 많이 들며, 아마도 고릴라 자체도 해로울 수 있다.
+하지만, 체중 정보 수집이 중요하다면, 9마리 고릴라를 표본으로 체중을 측정하는 것은 용인될지 모른다.
+보호구역 모집단은 알고 있다고 가정하자. 그래서 성인 암컷 대표 표본을 고를 수 있다. 미지의 모집단 평균 µ를 추정하는데 표본 평균 <span class="c018">x</span>를 사용할 수 있다.
+</span><a id="hevea_default759"></a><span class="c005">
+</span><a id="hevea_default760"></a><span class="c005">
+</span><a id="hevea_default761"></a></p><p><span class="c005">고릴라 암컷 9마리 체중을 재서, 표본평균 <span class="c018">x</span>=90 kg과 표본 표준편차 <span class="c009">S</span>=7.5 kg을 찾았다. 
+표본평균은 µ에 대한 불편 추정량이고, 장기적으로 MSE를 최소화한다. 그래서 결과를 요약하는 단 하나 추정값을 보고한다면, 90 kg을 보고할 것이다.
+</span><a id="hevea_default762"></a><span class="c005">
+</span><a id="hevea_default763"></a><span class="c005">
+</span><a id="hevea_default764"></a><span class="c005">
+</span><a id="hevea_default765"></a><span class="c005">
+</span><a id="hevea_default766"></a></p><p><span class="c005">하지만, 이 추정값에 대해서 얼마나 신뢰를 가져야할까?
+훨씬 더 큰 모집단에서 단지 <span class="c009">n</span>=9 마리 고릴라만 체중을 측정했다면, 우연히도 운이 좋지 못하다면 가장 무거운 (혹은 가장 가벼운) 고릴라만 고를 수 있다.
+확률 선택(random selection)에 의해서 발생되는 추정값의 변동을 <span class="c012">표집 오차 (sampling error)</span>라고 한다.
+</span><a id="hevea_default767"></a></p><p><span class="c005">표집 오차를 정량화하기 위해서, 가설(hypothetical) 값 µ와 σ를 갖는 표본추출 과정을 모의시험하고, <span class="c018">x</span>가 얼마나 변화하는지 살펴볼 수 있다.</span></p><p><span class="c005">모집단 µ와 σ 실제값을 모르기 때문에, 
+<span class="c018">x</span>와 <span class="c009">S</span>을 추정값으로 사용한다. 
+그래서 정답을 찾고 있는 질문은
+“만약 µ와 σ의 실제값이 90 kg와 7.5 kg이고,
+동일한 실험을 많이 수행한다면, 추정된 평균 <span class="c018">x</span>가 얼마나 변화할까요?”</span></p><p><span class="c005">다음 함수가 질문에 답을 한다.</span></p><pre class="verbatim"><span class="c005">
+def SimulateSample(mu=90, sigma=7.5, n=9, m=1000):
+    means = []
+    for j in range(m):
+        xs = np.random.normal(mu, sigma, n)
+        xbar = np.mean(xs)
+        means.append(xbar)
+
+    cdf = thinkstats2.Cdf(means)
+    ci = cdf.Percentile(5), cdf.Percentile(95)
+    stderr = RMSE(means, mu)
+</span></pre><p><span class="c005"><span class="c003">mu</span>와 <span class="c003">sigma</span>는 모수에 대한 <em>가설 (hypothetical)</em> 값이다.
+<span class="c003">n</span>이 표본 크기로 체중을 측정한 고릴라 숫자다.
+<span class="c003">m</span>은 모의 시험을 수행한 횟수다.
+</span><a id="hevea_default768"></a><span class="c005">
+</span><a id="hevea_default769"></a><span class="c005">
+</span><a id="hevea_default770"></a></p><blockquote class="figure"><div class="center"><hr class="c022"></div><span class="c005">
+</span><div class="center"><span class="c005"><img src="thinkstats2033.png"></span></div><span class="c005">
+</span><div class="caption"><table class="c001 cellpading0"><tr><td class="c020"><span class="c005">Figure 8.1: 신뢰구간과, <span class="c018">x</span> 표집분포.</span></td></tr>
+</table></div><span class="c005">
+</span><a id="estimation1"></a><span class="c005">
+</span><div class="center"><hr class="c022"></div></blockquote><p><span class="c005">매번 반복할 때마다, 주어진 모수를 가진 정규분포에서 <span class="c003">n</span>개 값을 골라 
+표본 평균 <span class="c003">xbar</span>를 계산한다. 1000번 모의시험하고 나서, 추정값 분포 <span class="c003">cdf</span>를 계산한다. 결과가 그림  </span><a href="#estimation1"><span class="c005">9.1</span></a><span class="c005">에 나타나 있다.
+분포를 추정값의 <span class="c012">표집 분포 (sampling distribution)</span>라고 부른다.
+만약 반복해서 실험을 계속한다면, 추정값이 얼마나 변화하는지 보여준다.
+</span><a id="hevea_default771"></a></p><p><span class="c005">표집 분포 평균이 가정값(hypothetical value) µ와 매우 가깝다.
+따라서, 평균적으로 실험이 정답을 산출한다는 의미다.
+1000회 반복한 후에는 가장 적은 값이 82 kg, 가장 큰 값이 98 kg이다.
+이 범위가 함의하는 바는 추정값이 8 kg 만큼 차이가 있을 수 있다는 것이다.</span></p><p><span class="c005">표집 분포를 요약하는 두 가지 흔한 방법이 있다.</span></p><ul class="itemize"><li class="li-itemize"><span class="c005"><span class="c012">표준 오차 (Standard error SE)</span>는 평균적으로 추정값이 얼마나 차이가 있을지 측정하는 측도다. 각 모의 실험마다, 오차 <span class="c018">x</span> − µ를 계산하고 나서 누적평균제곱오차에 제곱근(root mean squared error, RMSE)을 씌워 계산한다. 상기 예제에서는 대략 2.5 kg이 된다.
+</span><a id="hevea_default772"></a></li><li class="li-itemize"><span class="c005"><span class="c012">신뢰 구간 (confidence interval, CI)</span>은 표집 분포를 주어진 비율로 포함할 범위가 된다. 예를 들어, 신뢰 구간 90%는 5번째부터 95번째 백분위수 범위가 된다. 상기 예제에서, 90% CI는 (86, 94) kg가 된다.
+</span><a id="hevea_default773"></a><span class="c005">
+</span><a id="hevea_default774"></a></li></ul><p><span class="c005">표준 오차와 신뢰구간은 또한 혼동의 원천이기도 하다.</span></p><ul class="itemize"><li class="li-itemize"><span class="c005">종종 표준 오차(standard error)와 표준편차(standard deviation)를 혼동한다. 표준 편차는 측정량에 내재한 변동성을 기술한다; 상기 예제에서, 고릴라 체중의 표준 편차는 7.5 kg이다. 표준 오차는 추정값에 내재한 변동성을 기술한다. 상기 예제에서, 표본 9 측정에 기반한 평균의 표준 오차는 2.5 kg 이다.</span><p><a id="hevea_default775"></a><span class="c005">
+</span><a id="hevea_default776"></a></p><p><span class="c005">차이점을 기억하는 방법은, 표본 크기가 증가함에 따라, 
+표준 오차는 점점 더 작아진다; 표준 편차는 그렇지 않다.</span></p></li><li class="li-itemize"><span class="c005">90% 확률로 실제 모수 µ가 90% 신뢰구간 내에 속한다고 생각하곤 한다. 슬프게도, 이것은 사실이 아니다.
+이와 같은 주장을 하려고 한다면, 베이즈 방법(Bayesian method)을 사용해야 한다.(원저작자 책, <span class="c009">Think Bayes</span>을 참조).
+</span><a id="hevea_default777"></a><p><span class="c005">표집 분포는 다른 질문에 대한 답이다; 만약 실험을 반복한다면, 추정값이 얼마나 변화할 것인지 정보를 제시함으로써 추정값이 얼마나 신뢰할만한지 정보를 제공한다.
+</span><a id="hevea_default778"></a></p></li></ul><p><span class="c005">신뢰 구간과 표준 오차는 표집 오차만 정량화한다는 것을 기억하는 것이 중요하다; 즉, 모집단 일부만 측정함으로써 생기는 오차.
+표집 분포가 다른 오차를 설명하지는 않는다.
+다른 오차는 표집 편의(sampling bias)와 측정 오차 (measurement error)가 포함되고 다음 절의 주제다. </span></p><span class="c005">
+</span><h2 class="section" id="sec86"><span class="c005">8.4  표집 편의 (Sampling bias)</span></h2>
+<p><span class="c005">자연보호구역에 고릴라 체중 대신에, 도시에 거주하고 있는 여성 평균 체중을 알고자 한다고 가정하자. 여성 대표 표본을 골라 체중을 측정하는 허가가 날 것 같지는 않다.</span></p><p><a id="hevea_default779"></a><span class="c005">
+</span><a id="hevea_default780"></a><span class="c005">
+</span><a id="hevea_default781"></a><span class="c005">
+</span><a id="hevea_default782"></a><span class="c005">
+</span><a id="hevea_default783"></a></p><p><span class="c005">간단한 대안은 “전화 표집 (telephone sampling)”이 될 것이다; 
+즉, 전화번호부에서 임의 번호를 골라, 전화하고, 성인 여성과 통화하여, 체중이 얼마인지 조사하는 것이다. </span></p><p><a id="hevea_default784"></a><span class="c005">
+</span><a id="hevea_default785"></a></p><p><span class="c005">전화 표집은 분명한 한계가 있다.
+예를 들어, 표본이 전화번호가 전화번호부에 등재된 사람으로 국한된다.
+그래서 전화가 없는 사람(평균보다 더 가난할지 모르는 사람)과 전화번호부에 등재되지 않은 사람(훨씬 더 부자일 수 있는 사람)은 제외된다. 
+또한, 낮 시간에 집으로 전화를 걸게 되면, 직장을 가진 사람이 표본에 있을 가능성은 줄어든다. 그리고 만약 전화에 응답한 사람만 표본으로 추출한다면, 전화를 공용으로 사용하는 사람을 표본으로 덜 추출할 것 같다.</span></p><p><span class="c005">수입, 실업, 가구 규모 같은 요인이 체중과 관련이 있다면(관련이 있을 듯하다.), 조사 결과가 어떻게든지 영향을 받을 수 있다. 이러한 문제를 <span class="c012">표집 편의 (sampling bias)</span>라고 부른다. 왜냐하면 표집과정(sampling process)의 한 특성이기 때문이다.
+</span><a id="hevea_default786"></a></p><p><span class="c005">이러한 표집 과정은 또한 자기 선택(self-selection)에 취약한데 일종의 표집 편의다.
+일부 사람은 질문에 대답을 거부한다. 그리고 만약 거부하는 경향이 체중과 관련된다면, 결과에도 영향을 줄 수 있다.
+</span><a id="hevea_default787"></a></p><p><span class="c005">마지막으로, 체중을 측정하기보다, 체중이 얼마인지 설문한다면, 결과가 정확하지 않을 수도 있다.
+만약 실제 본인 체중에 불편하다면, 심지어 도움되는 응답자 조차도 체중을 올리거나 내릴지도 모른다. 그리고 모든 응답자가 도움이 되는 것은 아니다.
+이와 같은 비정확성이 <span class="c012">측정 오차 (measurement error)</span> 사례가 된다.
+</span><a id="hevea_default788"></a></p><p><span class="c005">추정량을 보고할 때, 표집 오차를 정량화하기 위해서 표준 오차 혹은 신뢰구간, 혹은 모두 보고하는 것이 유용한다.
+하지만, 표집 오차는 단지 오차의 단지 하나일 뿐이고, 종종 가장 큰 것이 아니라는 것을 기억하는 것이 중요하다.
+</span><a id="hevea_default789"></a><span class="c005">
+</span><a id="hevea_default790"></a></p><span class="c005">
+</span><h2 class="section" id="sec87"><span class="c005">8.5  지수분포 (Exponential distributions)</span></h2>
+<p><span class="c005">
+</span><a id="hevea_default791"></a><span class="c005">
+</span><a id="hevea_default792"></a></p><p><span class="c005">한번더 추정 게임을 시도해보자. 
+<em>저자가 마음속에 분포를 하나 염두에 두고 있다.</em>
+지수분포로, 다음에 표본이 있다.</span></p><p><span class="c004">[5.384, 4.493, 19.198, 2.790, 6.122, 12.844]</span></p><p><span class="c005">상기 분포 모수 λ는 무엇이라고 생각하나요?</span></p><p><a id="hevea_default793"></a><span class="c005">
+</span><a id="hevea_default794"></a></p><p><span class="c005">일반적으로 지수분포 평균은 1/λ다. 그래서 역산해서 다음을 선택할 수 있다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c005"><span class="c009">L</span> = 1 / <span class="c018">x</span></span></td></tr>
+</table><p><span class="c005">
+<span class="c009">L</span>은 λ의 추정량이다. 그리고 보통 다른 추정량과 다르다; 또한 최우추정량(maximum likelihood estimator)이다. (<span class="c003">http://wikipedia.org/wiki/Exponential_distribution#Maximum_likelihood</span> 참조).
+그래서, 만약 정확하게 λ 추측 확률을 극대화하려고 한다면, <span class="c009">L</span>이 나갈 방향이 된다.
+</span><a id="hevea_default795"></a><span class="c005">
+</span><a id="hevea_default796"></a></p><p><span class="c005">하지만, <span class="c018">x</span>가 이상점이 존재하는 경우 강건하지 않다는 것을 알고 있다.
+그래서, <span class="c009">L</span>도 동일한 문제를 작고 있다고 예상한다.
+</span><a id="hevea_default797"></a><span class="c005">
+</span><a id="hevea_default798"></a><span class="c005">
+</span><a id="hevea_default799"></a></p><p><span class="c005">표본 중위수에 기반한 대안을 선택할 수 있다.
+지수 분포 중위수는 ln(2) / λ이다. 
+다시 역산해서 계산하면, 추정량을 다음과 같이 정의한다.
+</span></p><table class="display dcenter"><tr class="c019"><td class="dcell"><span class="c011">L</span><sub><span class="c011">m</span></sub><span class="c005"> = ln(2) / <span class="c009">m</span> </span></td></tr>
+</table><p><span class="c005">
+여기서, <span class="c009">m</span>은 표본 중위수다.
+</span><a id="hevea_default800"></a></p><p><span class="c005">이들 추정량 성능을 시험하기 위해서, 표집 과정을 모의 시험할 수 있다.</span></p><pre class="verbatim"><span class="c005">
+def Estimate3(n=7, m=1000):
+    lam = 2
+
+    means = []
+    medians = []
+    for _ in range(m):
+        xs = np.random.exponential(1.0/lam, n)
+        L = 1 / np.mean(xs)
+        Lm = math.log(2) / thinkstats2.Median(xs)
+        means.append(L)
+        medians.append(Lm)
+
+    print('rmse L', RMSE(means, lam))
+    print('rmse Lm', RMSE(medians, lam))
+    print('mean error L', MeanError(means, lam))
+    print('mean error Lm', MeanError(medians, lam))
+</span></pre><p><span class="c005">λ=2로 실험을 하면, <span class="c009">L</span> RMSE는 1.1 이 된다.
+중위수 기반 추정량 <span class="c009">L</span></span><sub><span class="c011">m</span></sub><span class="c005">, RMSE는 1.8 이 된다.
+실험으로부터 <span class="c009">L</span> 이 MSE를 최소화했는지 분간할 수 없다.
+하지만 적어도 <span class="c009">L</span></span><sub><span class="c011">m</span></sub><span class="c005"> 보다 더 좋은 듯 하다.
+</span><a id="hevea_default801"></a><span class="c005">
+</span><a id="hevea_default802"></a></p><p><span class="c005">슬프게도 두 추정량 모두 편의가 있다. <span class="c009">L</span>에 대해 평균 오차는 0.33; 
+<span class="c009">L</span></span><sub><span class="c011">m</span></sub><span class="c005">에 대해 평균 오차는 0.45 다. 그리고 어느 것도 <span class="c003">m</span>이 증가함에 따라 0 으로 수렴하지 않는다.
+</span><a id="hevea_default803"></a><span class="c005">
+</span><a id="hevea_default804"></a></p><p><span class="c005"><span class="c018">x</span>는 분포 평균의 불편 추정량 1 / λ임이 밝혀졌다. 하지만,
+<span class="c009">L</span>은 λ의 불편 추정량은 아니다.</span></p><span class="c005">
+</span><h2 class="section" id="sec88"><span class="c005">8.6  연습문제</span></h2>
+<p><span class="c005">다음 연습문제에 대해서, <span class="c003">estimation.py</span>을 복사해서 시작할 수 있다.
+해답은 <code>chap08soln.py</code> 파일에 나와있다.</span></p><div class="theorem"><span class="c005"><span class="c012">Exercise 1</span>  </span><p><span class="c005"><em>이번 장에서, </em>µ<em>를 추정하는데 </em><span class="c018">x</span><em> 와 중위수를 사용했고,
+</em><span class="c018">x</span><em>가 MSE 하한을 산출함을 알아냈다.
+또한, </em>σ<em>를 추정하는데 </em><span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005"><em> 와 </em><span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005"><em>을 사용했고,
+</em><span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005"><em>은 편향되었고, </em><span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005"><em>은 불편향임을 알아냈다.</em></span></p><p><span class="c005"><em>유사한 실험을 실행해서, </em><span class="c018">x</span><em>와 중위수가 </em>µ<em>의 편향된 추정값임을 알아내라.
+또한, </em><span class="c009">S</span></span><sup><span class="c005">2</span></sup><span class="c005"><em> 혹은 </em><span class="c009">S</span></span><sub><span class="c005"><span class="c009">n</span>−1</span></sub><sup><span class="c005">2</span></sup><span class="c005"><em> 가 MSE 하한을 산출하는지 검사하라.</em></span></p><p><a id="hevea_default805"></a><span class="c005">
+</span><a id="hevea_default806"></a><span class="c005">
+</span><a id="hevea_default807"></a></p></div><div class="theorem"><span class="c005"><span class="c012">Exercise 2</span>  </span><p><span class="c005"><em>모수 </em>λ=2<em>를 갖는 지수분포에서 표본 </em><span class="c009">n</span>=10<em> 개를 추출한다고 가정하자.
+실험을 1000번 모의시험하고 추정값 </em><span class="c009">L</span><em>의 표본 분포를 도식화한다.
+추정값의 표준오차와 90% 신뢰구간을 계산하라.</em></span></p><p><a id="hevea_default808"></a><span class="c005">
+</span><a id="hevea_default809"></a><span class="c005">
+</span><a id="hevea_default810"></a></p><p><span class="c005"><em>다른 </em><span class="c009">n</span><em> 값을 갖는 실험을 반복하고, </em><span class="c009">n</span><em> 값과 표준오차를 도식화한다.
+</em></span><a id="hevea_default811"></a><span class="c005">
+</span><a id="hevea_default812"></a></p></div><div class="theorem"><span class="c005"><span class="c012">Exercise 3</span>  </span><p><span class="c005"><em>하키와 축구같은 스포츠 게임에서 득점 사이 시간은 대체로 지수를 따른다.
+그래서 게임에서 한 팀이 득점한 골을 관측함으로써 득점을 추정할 수 있다.
+이 추정 과정은 득점 사이 시간을 표집하는 것과 약간 다르다. 
+그래서 작동방법을 살펴보다.</em></span></p><p><a id="hevea_default813"></a><span class="c005">
+</span><a id="hevea_default814"></a></p><p><span class="c005"><em>게임당 골로 득점률 <span class="c003">lam</span>을 인자로 받고,
+전체 시간이 1 게임 경과할 때까지 득점사이 시간을 생성함으로서 게임을 
+모의시험하고 나서, 득점한 점수를 반환하는 함수를 작성하라. </em></span></p><p><span class="c005"><em>많은 게임을 모의시험하고, <span class="c003">lam</span> 추정값을 저장하고 나서
+평균 오차와 RMSE를 계산하는 또다른 함수를 작성하라.</em></span></p><p><span class="c005"><em>추정값을 이와 같은 방식으로 만드는 것이 편향됐을까?
+추정값에 대한 표본분포와 90% 신뢰구간을 도식화하시오.
+표준오차는 얼마인가? 
+<span class="c003">lam</span> 값을 크게하면, 표집오차에 무슨일이 생길까?</em></span></p><p><a id="hevea_default815"></a><span class="c005">
+</span><a id="hevea_default816"></a><span class="c005">
+</span><a id="hevea_default817"></a><span class="c005">
+</span><a id="hevea_default818"></a></p></div><span class="c005">
+</span><h2 class="section" id="sec89"><span class="c005">8.7  용어 사전</span></h2>
+<ul class="itemize"><li class="li-itemize"><span class="c005">추정 (estimation): 표본에서 분포 모수를 추정하는 과정.
+</span><a id="hevea_default819"></a></li><li class="li-itemize"><span class="c005">추정량 (estimator): 모수를 추정하는데 사용되는 통계량.
+</span><a id="hevea_default820"></a></li><li class="li-itemize"><span class="c005">누적평균제곱오차 (mean squared error, MSE): 추정 오차 측도.
+</span><a id="hevea_default821"></a><span class="c005">
+</span><a id="hevea_default822"></a></li><li class="li-itemize"><span class="c005">제곱근 평균제곱오차 (root mean squared error, RMSE): 
+MSE 제곱근으로 일반적인 오차 규모를 좀더 유의미하게 표현.
+</span><a id="hevea_default823"></a><span class="c005">
+</span><a id="hevea_default824"></a></li><li class="li-itemize"><span class="c005">최우추정량 (maximum likelihood estimator, MLE): 가장 올바를 것 같은 점추정값을 계산하는 추정량.
+</span><a id="hevea_default825"></a><span class="c005">
+</span><a id="hevea_default826"></a></li><li class="li-itemize"><span class="c005">(추정량의) 편의 (bias of an estimator): 반복되는 실험을 평균낼 때, 실제 모수 값보다 높은 혹은 낮은 추정량의 경향성. 
+</span><a id="hevea_default827"></a></li><li class="li-itemize"><span class="c005">표집 오차 (sampling error): 
+우연에 의한 변동과 한정된 표본 크기 때문에 추정값에 생기는 오차.
+</span><a id="hevea_default828"></a></li><li class="li-itemize"><span class="c005">표집 편의 (sampling bias): 
+모집단을 대표하지 못하는 표집 과정 때문에 추정값에 생기는 오차.
+</span><a id="hevea_default829"></a></li><li class="li-itemize"><span class="c005">측정 오차 (measurement error): 
+데이터를 수집하고 기록하는 부정확성 때문에 추정값에 생기는 오차.
+</span><a id="hevea_default830"></a></li><li class="li-itemize"><span class="c005">표집 분포 (sampling distribution): 
+만약 실험을 많이 반복한다면 생기는 통계량 분포.
+</span><a id="hevea_default831"></a></li><li class="li-itemize"><span class="c005">표본 오차 (standard error): 
+추정값의 RMSE로 표집 오차 (하지만 다른 오차는 제외) 때문에 생기는 변동성을 정량화한다.
+</span><a id="hevea_default832"></a></li><li class="li-itemize"><span class="c005">신뢰구간 (confidence interval): 
+만약 실험을 많이 반복하면 추정량 예상 범위를 표현하는 구간.
+</span><a id="hevea_default833"></a><span class="c005"> 
+</span><a id="hevea_default834"></a></li></ul><span class="c005">
+</span></td>
+
+<td width=130 valign="top">
+
+<p>
+<h4>Are you using one of our books in a class?</h4>  We'd like to know
+about it.  Please consider filling out <a href="http://spreadsheets.google.com/viewform?formkey=dC0tNUZkMjBEdXVoRGljNm9FRmlTMHc6MA" onClick="javascript: pageTracker._trackPageview('/outbound/survey');">this short survey</a>.
+
+<p>
+<br>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+44933072X&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+449307116&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=1
+449314635&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+<p>
+<iframe class="c021" src="http://rcm.amazon.com/e/cm?t=greenteapre01-20&o=1&p=8&l=as1&asins=0
+521725968&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1
+=FFFFFF&bg1=FFFFFF&npa=1&f=ifr" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+
+</td>
+</tr>
+</table>
+
+</body>
+<hr>
+<a href="thinkstats2008.html"><img src="back.png" ALT="Previous"></a>
+<a href="index.html"><img src="up.png" ALT="Up"></a>
+<a href="thinkstats2010.html"><img src="next.png" ALT="Next"></a>
+</body>
+</html>
