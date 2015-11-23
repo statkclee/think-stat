@@ -72,6 +72,9 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 nsfg.py: All tests passed.
 ~~~
 
+#### 부랑자(Vagrant)와 가상상자(VirtualBox)를 활용한 과학컴퓨팅 환경 구축
+
+[부랑자(Vagrant) 아나콘다 설치환경 참조](http://statkclee.github.io/raspberry-pi/vagrant-anaconda.html)
 
 ### 학습 목차
 
