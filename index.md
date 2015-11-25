@@ -29,6 +29,10 @@ title: 통계적 사고 워크샵
 >&laquo;&laquo;&laquo;&laquo; 연습문제 초벌 번역  
 >&laquo;&laquo;&laquo;&laquo; 한국어판 서문 추가  
 
+### 공용 작업공간
+
+[위키...통계적 사고](https://public.etherpad-mozilla.org/p/think-stat)
+
 ### LaTeX 사전 공부
 
 - LaTeX 기초
