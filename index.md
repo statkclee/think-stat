@@ -29,6 +29,11 @@ title: 통계적 사고 워크샵
 >&laquo;&laquo;&laquo;&laquo; 연습문제 초벌 번역  
 >&laquo;&laquo;&laquo;&laquo; 한국어판 서문 추가  
 
+| 장 | 연습문제 | 해답 |
+|-------|----------------------|-------------------------|
+| 1장   | [문제](http://nbviewer.ipython.org/gist/statkclee/09023b27443c1b420bad)| [해답](http://nbviewer.ipython.org/gist/statkclee/9ef6276970a7f64c9a8e)|
+| 2장   | [문제](http://nbviewer.ipython.org/gist/statkclee/7dac28346346ca4011b0)|[해답](http://nbviewer.ipython.org/gist/statkclee/b29382aca38a4392c6b9)|
+
 ### 공용 작업공간
 
 [위키...통계적 사고](https://public.etherpad-mozilla.org/p/think-stat)
