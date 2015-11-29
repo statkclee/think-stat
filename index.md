@@ -33,6 +33,18 @@ title: 통계적 사고 워크샵
 |-------|----------------------|-------------------------|
 | 1장   | [문제](http://nbviewer.ipython.org/gist/statkclee/09023b27443c1b420bad)| [해답](http://nbviewer.ipython.org/gist/statkclee/9ef6276970a7f64c9a8e)|
 | 2장   | [문제](http://nbviewer.ipython.org/gist/statkclee/7dac28346346ca4011b0)|[해답](http://nbviewer.ipython.org/gist/statkclee/b29382aca38a4392c6b9)|
+| 3장   | [문제](http://nbviewer.ipython.org/gist/statkclee/ee16d329dd21b04c905a)  | [해답](http://nbviewer.ipython.org/gist/statkclee/d430ad49279dedcb58fd) |
+| 4장   | [문제](http://nbviewer.ipython.org/gist/statkclee/7c5210fd084bfbcc12a7)  | [해답](http://nbviewer.ipython.org/gist/statkclee/2b5565a388fde22a96a5) |
+| 5장   | []()  | []() |
+| 6장   | []()  | []() |
+| 7장   | []()  | []() |
+| 8장   | []()  | []() |
+| 9장   | []()  | []() |
+| 10장   | []()  | []() |
+| 11장   | []()  | []() |
+| 12장   | []()  | []() |
+| 13장   | []()  | []() |
+| 14장   | []()  | []() |
 
 ### 공용 작업공간
 
