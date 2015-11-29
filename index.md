@@ -35,7 +35,7 @@ title: 통계적 사고 워크샵
 | 2장   | [문제](http://nbviewer.ipython.org/gist/statkclee/7dac28346346ca4011b0)|[해답](http://nbviewer.ipython.org/gist/statkclee/b29382aca38a4392c6b9)|
 | 3장   | [문제](http://nbviewer.ipython.org/gist/statkclee/ee16d329dd21b04c905a)  | [해답](http://nbviewer.ipython.org/gist/statkclee/d430ad49279dedcb58fd) |
 | 4장   | [문제](http://nbviewer.ipython.org/gist/statkclee/7c5210fd084bfbcc12a7)  | [해답](http://nbviewer.ipython.org/gist/statkclee/2b5565a388fde22a96a5) |
-| 5장   | []()  | []() |
+| 5장   | [문제](http://nbviewer.ipython.org/gist/statkclee/62f067a695cae30a5c21)  | [해답](http://nbviewer.ipython.org/gist/statkclee/dc9990403926b2cc2ed0) |
 | 6장   | []()  | []() |
 | 7장   | []()  | []() |
 | 8장   | []()  | []() |
