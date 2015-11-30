@@ -41,10 +41,10 @@ title: 통계적 사고 워크샵
 | 8장   | [문제](http://nbviewer.ipython.org/gist/statkclee/ffd6c3383e07720fea07)  | [해답](http://nbviewer.ipython.org/gist/statkclee/f81a55631769c906548d) |
 | 9장   | [문제](http://nbviewer.ipython.org/gist/statkclee/97f3729de41ac85421b1)  | [해답](http://nbviewer.ipython.org/gist/statkclee/ea9f9ede08e7f1363572) |
 | 10장   | [문제](http://nbviewer.ipython.org/gist/statkclee/cea93a7fbb6dadf9a747)  | [해답](http://nbviewer.ipython.org/gist/statkclee/e08b9bbf7518c4d09c4f) |
-| 11장   | [문제]()  | [해답]() |
-| 12장   | [문제]()  | [해답]() |
-| 13장   | [문제]()  | [해답]() |
-| 14장   | [문제]()  | [해답]() |
+| 11장   | [문제](http://nbviewer.ipython.org/gist/statkclee/b5e503d06f997ad30ce4)  | [해답](http://nbviewer.ipython.org/gist/statkclee/9d54f17859763713973c) |
+| 12장   | [문제](http://nbviewer.ipython.org/gist/statkclee/7ca197a0ae8bdfe76c10)  | [해답](http://nbviewer.ipython.org/gist/statkclee/367b5e192ddf9e61acc0) |
+| 13장   | [문제](http://nbviewer.ipython.org/gist/statkclee/cb92c01d604f8d84d2bb)  | [해답](http://nbviewer.ipython.org/gist/statkclee/6376098b5f6751d861b4) |
+| 14장   | [문제](http://nbviewer.ipython.org/gist/statkclee/9c60fb61a78e5659f7d7)  | [해답](http://nbviewer.ipython.org/gist/statkclee/7f15f132bd78a6435762) |
 
 ### 공용 작업공간
 
