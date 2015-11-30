@@ -36,15 +36,15 @@ title: 통계적 사고 워크샵
 | 3장   | [문제](http://nbviewer.ipython.org/gist/statkclee/ee16d329dd21b04c905a)  | [해답](http://nbviewer.ipython.org/gist/statkclee/d430ad49279dedcb58fd) |
 | 4장   | [문제](http://nbviewer.ipython.org/gist/statkclee/7c5210fd084bfbcc12a7)  | [해답](http://nbviewer.ipython.org/gist/statkclee/2b5565a388fde22a96a5) |
 | 5장   | [문제](http://nbviewer.ipython.org/gist/statkclee/62f067a695cae30a5c21)  | [해답](http://nbviewer.ipython.org/gist/statkclee/dc9990403926b2cc2ed0) |
-| 6장   | []()  | []() |
-| 7장   | []()  | []() |
-| 8장   | []()  | []() |
-| 9장   | []()  | []() |
-| 10장   | []()  | []() |
-| 11장   | []()  | []() |
-| 12장   | []()  | []() |
-| 13장   | []()  | []() |
-| 14장   | []()  | []() |
+| 6장   | [문제](http://nbviewer.ipython.org/gist/statkclee/098972913410066b0638)  | [해답](http://nbviewer.ipython.org/gist/statkclee/35126a972a7cbc9ddbe3) |
+| 7장   | [문제](http://nbviewer.ipython.org/gist/statkclee/6b158fdec396ab7a815d)  | [해답](http://nbviewer.ipython.org/gist/statkclee/0259ca5de6bae037b338) |
+| 8장   | [문제](http://nbviewer.ipython.org/gist/statkclee/ffd6c3383e07720fea07)  | [해답](http://nbviewer.ipython.org/gist/statkclee/f81a55631769c906548d) |
+| 9장   | [문제](http://nbviewer.ipython.org/gist/statkclee/97f3729de41ac85421b1)  | [해답](http://nbviewer.ipython.org/gist/statkclee/ea9f9ede08e7f1363572) |
+| 10장   | [문제](http://nbviewer.ipython.org/gist/statkclee/cea93a7fbb6dadf9a747)  | [해답](http://nbviewer.ipython.org/gist/statkclee/e08b9bbf7518c4d09c4f) |
+| 11장   | [문제]()  | [해답]() |
+| 12장   | [문제]()  | [해답]() |
+| 13장   | [문제]()  | [해답]() |
+| 14장   | [문제]()  | [해답]() |
 
 ### 공용 작업공간
 
